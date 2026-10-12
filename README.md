@@ -14,11 +14,11 @@
   <img src="https://img.shields.io/badge/HTML%20%2B%20CSS%20%2B%20JS-Site-b45309?style=for-the-badge&logo=html5&logoColor=fff7ed" alt="HTML, CSS e JS" />
 </p>
 
-<!-- Quando tiver uma imagem de capa (vinil, caderno de rimas, foto sua), salve em .docs/.assets/ e descomente:
+//capa
 <p align="center">
   <img src=".docs/.assets/capa.png" alt="Capa do Autosample" />
 </p>
--->
+
 
 ## 🎤 Sobre o projeto
 
