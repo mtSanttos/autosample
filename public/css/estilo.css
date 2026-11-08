@@ -4,10 +4,14 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Barlow', 'Segoe UI', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: black;
+  background-color: var(--marrom);
 }
 
 :root {
+  --marrom: #3b1d0f;
+  --ambar: #b45309;
+  --dourado: #f0a93b;
+  --creme: #fff7ed;
   --tamanho-header: 80px;
   --tamanho-banner: calc(100vh - var(--tamanho-header) - var(--tamanho-footer) - 2px);
   --tamanho-simulador: calc(100vh - var(--tamanho-header) - var(--tamanho-footer) - 2px);
@@ -23,7 +27,7 @@ body {
 
 .header {
   height: var(--tamanho-header);
-  border-bottom: 2px solid #32b9cd;
+  border-bottom: 2px solid var(--ambar);
 }
 
 .header .container {
@@ -34,7 +38,7 @@ body {
 
 .header a {
   text-decoration: none;
-  color: #e3b062;
+  color: var(--dourado);
 }
 
 .agora {
@@ -47,11 +51,11 @@ body {
   align-items: center;
   justify-content: space-between;
   list-style: none;
-  color: #e3b062;
+  color: var(--dourado);
 }
 
 .titulo {
-  color: #32b9cd;
+  color: var(--dourado);
   width: fit-content;
   font-weight: 500;
 }
@@ -65,8 +69,8 @@ body {
 .banner {
   height: var(--tamanho-banner);
   color: white;
-  background-image: url('../assets/imgs/bg-jelly-fish-para-home.png');
-  background-size: cover;
+  background: linear-gradient(135deg, var(--marrom), var(--ambar));
+
 }
 
 .banner .container {
@@ -89,7 +93,7 @@ body {
 /* MISSÃO VISÃO VALORES */
 
 .social {
-  background-color: #e5e5e5;
+  background-color: var(--creme);
   display: flex;
 }
 
@@ -121,9 +125,9 @@ body {
 /* FOOTER */
 
 .footer {
-  background-color: #32b9cd;
+  background-color: var(--ambar);
   height: 150px;
-  color: #fff;
+  color: var(--creme);
   display: flex;
   font-size: 15px;
 }
@@ -153,12 +157,12 @@ body {
 
 .card {
   width: 50%;
-  background-color: #e5e5e5;
+  background-color: var(--creme);
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  color: palevioletred;
+  color: var(--marrom);
   flex-direction: column;
   height: fit-content;
   padding: 20px 0;
@@ -183,16 +187,16 @@ body {
 }
 
 .formulario input {
-  border: 2px solid #32b9cd;
+  border: 2px solid var(--ambar);
   text-align: center;
   border-radius: 10px;
   margin: 0;
 }
 
 .formulario select {
-  border: 2px solid #32b9cd;
+  border: 2px solid var(--ambar);
   background-color: white;
-  color: gray;
+  color: var(--marrom);
   height: 36px;
   text-align: center;
   border-radius: 10px;
@@ -213,8 +217,8 @@ body {
   border-radius: 5px;
   font-weight: 600;
   font-size: 18px;
-  color: #fff;
-  background-color: #ED145B;
+  color: var(--creme);
+  background-color: var(--ambar);
   width: 120px;
   height: 30px;
   align-self: center;
@@ -244,12 +248,12 @@ body {
 
 .card_erro {
   display: none;
-  background-color: #fff;
+  background-color: var(--creme);
   color: black;
   width: 230px;
   position: fixed;
   border-radius: 4px;
-  border: #ED145B 3px solid;
+  border: var(--ambar) 3px solid;
   padding: 10px;
   margin-right: 10%;
 }
@@ -271,7 +275,7 @@ body {
 
 input {
   margin-bottom: 10px;
-  border: 2px solid #32b9cd;
+  border: 2px solid var(--ambar);
   padding: 10px;
   text-align: center;
   border-radius: 10px;
@@ -285,7 +289,7 @@ input {
   font-size: 18px;
   padding: 10px 15px;
   color: white;
-  background-color: #ED145B;
+  background-color: var(--ambar);
   width: 120px;
   align-self: center;
   margin-top: 5px;
