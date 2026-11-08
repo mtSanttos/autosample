@@ -1,0 +1,137 @@
+/* ============================================
+   Autosample | Home
+   Carregar DEPOIS do estilo.css
+   ============================================ */
+
+/* ---------- HERO COM O VINIL ---------- */
+
+.hero-vinil {
+  background: radial-gradient(circle at 75% 50%, var(--ambar) 0, var(--marrom) 55%);
+}
+
+.hero-conteudo {
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 40px;
+  min-height: 70vh;
+}
+
+.hero-texto {
+  max-width: 480px;
+  color: var(--creme);
+}
+
+.hero-assinatura {
+  color: var(--dourado);
+  font-style: italic;
+  margin: 0 0 8px;
+}
+
+.hero-texto h2 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1.1;
+  margin: 0 0 16px;
+}
+
+.vinil {
+  width: min(380px, 80vw);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    conic-gradient(transparent 0%, transparent 18%, rgba(255, 255, 255, 0.16) 25%, transparent 32%, transparent 68%, rgba(255, 255, 255, 0.16) 75%, transparent 82%, transparent 100%),
+    repeating-radial-gradient(circle, #0d0603 0, #0d0603 3px, #1c0f08 3px, #1c0f08 6px);
+  box-shadow: 0 0 0 10px rgba(240, 169, 59, 0.25), 0 20px 40px rgba(0, 0, 0, 0.5);
+  display: grid;
+  place-items: center;
+  animation: girar 3s linear infinite;
+}
+
+.vinil-rotulo {
+  width: 34%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--ambar);
+  border: 6px solid var(--dourado);
+  position: relative;
+}
+
+.vinil-rotulo::before {
+  content: "";
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--creme);
+  transform: translateX(-50%);
+}
+
+.vinil-rotulo::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--marrom);
+  transform: translate(-50%, -50%);
+}
+
+@keyframes girar {
+  to { transform: rotate(360deg); }
+}
+
+/*@media (prefers-reduced-motion: reduce) {
+  .vinil { animation: none; }
+}*/
+
+/* ---------- CAPAS ---------- */
+
+.capas {
+  background: var(--creme);
+  padding: 60px 0;
+}
+
+.capas .container {
+  flex-direction: column;
+  gap: 24px;
+}
+
+.capas h3 {
+  color: var(--marrom);
+  font-size: 1.6rem;
+  margin: 0;
+}
+
+.capas-grade {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 24px;
+}
+
+.capa-arte {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: flex-end;
+  padding: 16px;
+  border-radius: 4px;
+  background: linear-gradient(135deg, var(--marrom), var(--ambar));
+  color: var(--creme);
+  font-weight: 800;
+  font-size: 1.2rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s;
+}
+
+.capa:hover .capa-arte {
+  transform: translateY(-6px) rotate(-1deg);
+}
+
+.capa-legenda {
+  color: var(--marrom);
+  font-size: 0.9rem;
+  margin: 10px 0 0;
+}
