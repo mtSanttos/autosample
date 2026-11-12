@@ -44,7 +44,7 @@
   box-shadow: 0 0 0 10px rgba(240, 169, 59, 0.25), 0 20px 40px rgba(0, 0, 0, 0.5);
   display: grid;
   place-items: center;
-  animation: girar 3s linear infinite;
+  animation: girar 5s linear infinite;
 }
 
 .vinil-rotulo {
