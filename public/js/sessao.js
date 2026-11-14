@@ -12,6 +12,12 @@ function validarSessao() {
     }
 }
 
+function validarAdmin() {
+    if (sessionStorage.PERFIL_USUARIO != "admin") {
+        window.location = "./login.html";
+    }
+}
+
 function limparSessao() {
     sessionStorage.clear();
     window.location = "../login.html";
