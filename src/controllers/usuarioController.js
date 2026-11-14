@@ -80,7 +80,32 @@ usuarioModel.cadastrar(nome, email, senha, proximidade, funcao)
             });
     }
 }
+
+function contarPorFuncao(req, res) {
+    usuarioModel.contarPorFuncao()
+        .then(function (resultado) {
+            res.json(resultado);
+        })
+        .catch(function (erro) {
+            console.log(erro);
+            res.status(500).send("Erro ao buscar os dados.");
+        });
+}
+
+function contarPorProximidade(req, res) {
+    usuarioModel.contarPorProximidade()
+        .then(function (resultado) {
+            res.json(resultado);
+        })
+        .catch(function (erro) {
+            console.log(erro);
+            res.status(500).send("Erro ao buscar os dados.");
+        });
+}
+
 module.exports = {
     autenticar,
-    cadastrar
+    cadastrar,
+    contarPorFuncao,
+    contarPorProximidade
 }
