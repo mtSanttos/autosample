@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" />
 </head>
 
-<body onload="listar()">
+<body>
   <!--header inicio-->
   <div class="header">
     <div class="container">
@@ -53,10 +53,7 @@
                          Para inserir mais um campo, copie uma das inputs abaixo.
                          Assim que inserir vá para o script abaixo.
                      -->
-          <div class="campo">
-            <span>Código de ativação:</span>
-            <input id="codigo_input" type="text" placeholder="Insira aqui seu código" />
-          </div>
+
           <div class="campo">
             <span>Nome:</span>
             <input id="nome_input" type="text" placeholder="Seu nome" />
@@ -78,6 +75,28 @@
         <div id="div_aguardar" class="loading-div">
           <img src="./assets/circle-loading.gif" id="loading-gif" />
         </div>
+        <div class="campo">
+          <span>Como você me conhece?</span>
+          <select id="proximidade_input">
+            <option value="">Selecione</option>
+            <option value="amigo">Amigo</option>
+            <option value="familia">Família</option>
+            <option value="cena">Conheço da cena</option>
+            <option value="site">Conheci pelo site</option>
+            <option value="professor">Professor</option>
+          </select>
+        </div>
+        <div class="campo">
+          <span>Qual sua função na música?</span>
+          <select id="funcao_input">
+            <option value="">Selecione</option>
+            <option value="MC">MC</option>
+            <option value="beatmaker">Beatmaker</option>
+            <option value="DJ">DJ</option>
+            <option value="produtor">Produtor</option>
+            <option value="ouvinte">Ouvinte</option>
+          </select>
+        </div>
 
         <div id="div_erros_login"></div>
       </div>
@@ -87,7 +106,7 @@
   <!--footer inicio-->
   <div class="footer">
     <div class="container">
-      <h4>Feito com amor por aluno &hearts; SPTech &copy; 2023-2026</h4>
+      <h4>Feito com muita verdade by Matheus Santos &hearts; &copy; 2023-2026</h4>
     </div>
   </div>
   <!--footer fim-->
@@ -96,113 +115,69 @@
 </html>
 
 <script>
-
-  // Array para armazenar empresas cadastradas para validação de código de ativação 
-  let listaEmpresasCadastradas = [];
-
   function cadastrar() {
-    // aguardar();
-
-    //Recupere o valor da nova input pelo nome do id
-    // Agora vá para o método fetch logo abaixo
     var nomeVar = nome_input.value;
     var emailVar = email_input.value;
     var senhaVar = senha_input.value;
     var confirmacaoSenhaVar = confirmacao_senha_input.value;
-    var codigoVar = codigo_input.value;
-    var idEmpresaVincular
+    var proximidadeVar = proximidade_input.value;
+    var funcaoVar = funcao_input.value;
 
-    // Verificando se há algum campo em branco
     if (
       nomeVar == "" ||
       emailVar == "" ||
       senhaVar == "" ||
       confirmacaoSenhaVar == "" ||
-      codigoVar == ""
+      proximidadeVar == "" ||
+      funcaoVar == ""
     ) {
       cardErro.style.display = "block";
-      mensagem_erro.innerHTML =
-        "(Mensagem de erro para todos os campos em branco)";
-
-      finalizarAguardar();
+      mensagem_erro.innerHTML = "Preencha todos os campos.";
+      setTimeout(sumirMensagem, 5000);
       return false;
-    } else {
-      setInterval(sumirMensagem, 5000);
     }
 
-    // Verificando se o código de ativação é de alguma empresa cadastrada
-    for (let i = 0; i < listaEmpresasCadastradas.length; i++) {
-      if (listaEmpresasCadastradas[i].codigo_ativacao == codigoVar) {
-        idEmpresaVincular = listaEmpresasCadastradas[i].id
-        console.log("Código de ativação válido.");
-        break;
-      } else {
-        cardErro.style.display = "block";
-        mensagem_erro.innerHTML = "(Mensagem de erro para código inválido)";
-        finalizarAguardar();
-      }
+    if (senhaVar != confirmacaoSenhaVar) {
+      cardErro.style.display = "block";
+      mensagem_erro.innerHTML = "As senhas não conferem.";
+      setTimeout(sumirMensagem, 5000);
+      return false;
     }
 
-    // Enviando o valor da nova input
     fetch("/usuarios/cadastrar", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        // crie um atributo que recebe o valor recuperado aqui
-        // Agora vá para o arquivo routes/usuario.js
         nomeServer: nomeVar,
         emailServer: emailVar,
         senhaServer: senhaVar,
-        idEmpresaVincularServer: idEmpresaVincular
+        proximidadeServer: proximidadeVar,
+        funcaoServer: funcaoVar
       }),
     })
       .then(function (resposta) {
-        console.log("resposta: ", resposta);
-
         if (resposta.ok) {
           cardErro.style.display = "block";
-
           mensagem_erro.innerHTML =
-            "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
-
+            "Cadastro realizado! Redirecionando para o login...";
           setTimeout(() => {
             window.location = "login.html";
-          }, "2000");
-
-          limparFormulario();
-          finalizarAguardar();
+          }, 2000);
         } else {
-          throw "Houve um erro ao tentar realizar o cadastro!";
+          resposta.text().then(function (msg) {
+            cardErro.style.display = "block";
+            mensagem_erro.innerHTML = msg;
+            setTimeout(sumirMensagem, 5000);
+          });
         }
       })
-      .catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-        finalizarAguardar();
+      .catch(function (erro) {
+        console.log(`#ERRO: ${erro}`);
+        cardErro.style.display = "block";
+        mensagem_erro.innerHTML = "Não consegui falar com o servidor.";
       });
 
     return false;
-  }
-
-  // Listando empresas cadastradas 
-  function listar() {
-    fetch("/empresas/listar", {
-      method: "GET",
-    })
-      .then(function (resposta) {
-        resposta.json().then((empresas) => {
-          empresas.forEach((empresa) => {
-            listaEmpresasCadastradas.push(empresa);
-
-            console.log("listaEmpresasCadastradas")
-            console.log(listaEmpresasCadastradas[0].codigo_ativacao)
-          });
-        });
-      })
-      .catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-      });
   }
 
   function sumirMensagem() {
