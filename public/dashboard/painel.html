@@ -12,33 +12,48 @@
 <body>
     <h1>Emoções nas poesias</h1>
     <canvas id="graficoEmocoes"></canvas>
+    <canvas id="graficoMedia"></canvas>
 
-    <script>
-        fetch("/dashboard/emocoes-poesia")
-            .then(function (resposta) {
-                return resposta.json();
-            })
-            .then(function (dados) {
-                var nomes = dados.map(function (item) {
-                    return item.nome;
-                });
-                var totais = dados.map(function (item) {
-                    return item.total;
-                });
-                console.log(nomes, totais);
-
-                new Chart(document.getElementById("graficoEmocoes"), {
-                    type: "bar",
-                    data: {
-                        labels: nomes,
-                        datasets: [{
-                            label: "Poesias por emoção",
-                            data: totais
-                        }]
-                    }
-                });
+  <script>
+    fetch("/dashboard/emocoes-poesia")
+        .then(function (resposta) {
+            return resposta.json();
+        })
+        .then(function (dados) {
+            var nomes = dados.map(function (item) {
+                return item.nome;
             });
-    </script>
+            var totais = dados.map(function (item) {
+                return item.total;
+            });
+            var medias = dados.map(function (item) {
+                return Number(item.media);
+            });
+            console.log(nomes, totais, medias);
+
+            new Chart(document.getElementById("graficoEmocoes"), {
+                type: "bar",
+                data: {
+                    labels: nomes,
+                    datasets: [{
+                        label: "Poesias por emoção",
+                        data: totais
+                    }]
+                }
+            });
+
+            new Chart(document.getElementById("graficoMedia"), {
+                type: "bar",
+                data: {
+                    labels: nomes,
+                    datasets: [{
+                        label: "Intensidade média",
+                        data: medias
+                    }]
+                }
+            });
+        });
+</script>
 
 </body>
 
