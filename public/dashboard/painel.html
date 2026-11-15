@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel | Emoções</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../js/sessao.js"></script>
+</head>
+
+<body>
+    <h1>Emoções nas poesias</h1>
+    <canvas id="graficoEmocoes"></canvas>
+
+    <script>
+        fetch("/dashboard/emocoes-poesia")
+            .then(function (resposta) {
+                return resposta.json();
+            })
+            .then(function (dados) {
+                var nomes = dados.map(function (item) {
+                    return item.nome;
+                });
+                var totais = dados.map(function (item) {
+                    return item.total;
+                });
+                console.log(nomes, totais);
+
+                new Chart(document.getElementById("graficoEmocoes"), {
+                    type: "bar",
+                    data: {
+                        labels: nomes,
+                        datasets: [{
+                            label: "Poesias por emoção",
+                            data: totais
+                        }]
+                    }
+                });
+            });
+    </script>
+
+</body>
+
+</html>
