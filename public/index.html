@@ -28,28 +28,33 @@
           <a href="simulador.html">Simulador</a>
         </li>
         <li>|</li>
-        <li>
-          <a href="login.html">Login</a>
-        </li>
-        <li>
-          <a href="cadastro.html">Cadastro</a>
+        <li id="item_login"><a href="login.html">Login</a></li>
+        <li id="item_cadastro"><a href="cadastro.html">Cadastro</a></li>
+        <li id="item_usuario" style="display: none;">
+          <div class="hero-acoes" id="hero_acoes"></div>
+          <span id="nome_usuario"></span>
+          <a href="#" onclick="sair()">Sair</a>
         </li>
       </ul>
     </div>
   </div>
 
-  <section class="hero-vinil">
-    <div class="container hero-conteudo">
-      <div class="hero-texto">
-        <p class="hero-assinatura">i s2 myLife</p>
-        <h2>Eu faço sample da minha própria vida.</h2>
-        <p>Escrevo rap desde os 17 anos. Aqui ficam as letras, o contexto de cada uma e o caminho até aqui.</p>
-      </div>
-      <div class="vinil" aria-hidden="true">
-        <div class="vinil-rotulo"></div>
+ <section class="hero-vinil">
+  <div class="container hero-conteudo">
+    <div class="hero-texto">
+      <p class="hero-assinatura">i s2 myLife</p>
+      <h2>Eu faço sample da minha própria vida.</h2>
+      <p>Escrevo rap desde os 17 anos. Aqui ficam as letras, o contexto de cada uma e o caminho até aqui.</p>
+      <div class="hero-acoes" id="hero_acoes">
+        <a class="botao" href="cadastro.html">Criar conta</a>
+        <a class="botao" href="login.html">Entrar</a>
       </div>
     </div>
-  </section>
+    <div class="vinil" aria-hidden="true">
+      <div class="vinil-rotulo"></div>
+    </div>
+  </div>
+</section>
 
   <section class="capas">
     <div class="container">
@@ -84,6 +89,7 @@
       <h4>Feito por Matheus i &hearts; myLife &copy; 2026</h4>
     </div>
   </div>
+ 
 </body>
 
 </html>

@@ -12,9 +12,15 @@
 .hero-conteudo {
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 40px;
   min-height: 70vh;
+}
+
+@media (max-width: 800px) {
+  .hero-conteudo {
+    flex-wrap: wrap;
+  }
 }
 
 .hero-texto {
@@ -134,4 +140,16 @@
   color: var(--marrom);
   font-size: 0.9rem;
   margin: 10px 0 0;
+}
+
+.hero-acoes {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.hero-acoes .botao {
+  display: inline-block;
+  text-decoration: none;
 }
