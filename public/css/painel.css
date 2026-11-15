@@ -1,0 +1,49 @@
+.painel {
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 0;
+}
+
+.painel-topo {
+  color: var(--creme);
+  margin-bottom: 24px;
+}
+
+.painel-grade {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.cartao {
+  background: var(--creme);
+  color: var(--marrom);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.indicadores {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.indicador {
+  background: var(--ambar);
+  color: var(--creme);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.indicador-rotulo {
+  font-size: 0.9rem;
+}
+
+.indicador-valor {
+  font-size: 1.8rem;
+}
