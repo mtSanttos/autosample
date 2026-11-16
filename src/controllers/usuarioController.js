@@ -1,45 +1,42 @@
 var usuarioModel = require("../models/usuarioModel");
-var aquarioModel = require("../models/aquarioModel");
+
 
 function autenticar(req, res) {
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
 
     if (typeof email !== "string" || email == "") {
-        res.status(400).send("Informe o e-mail.");
+        res.status(400).send("Informe o email.");
     } else if (typeof senha !== "string" || senha == "") {
         res.status(400).send("Informe a senha.");
     } else {
 
         usuarioModel.autenticar(email, senha)
-            .then(function (resultado) {
-                    console.log(`\nResultados encontrados: ${resultadoAutenticar.length}`);
-                    console.log(`Resultados: ${JSON.stringify(resultadoAutenticar)}`); // transforma JSON em String
 
-                    if (resultadoAutenticar.length == 1) {
-                        console.log(resultadoAutenticar);
+            .then(
+                function (resultado) {
+                    console.log(`\nResultados encontrados: ${resultado.length}`);
+                    console.log(`Resultados: ${JSON.stringify(resultado)}`); // transforma JSON em String
 
-                        aquarioModel.buscarAquariosPorEmpresa(resultadoAutenticar[0].empresaId)
-                            .then((resultadoAquarios) => {
-                                if (resultadoAquarios.length > 0) {
+                    if (resultado.length == 1) {
+                        console.log(resultado);
+
+
+
                                     res.json({
-                                        id: resultadoAutenticar[0].id,
-                                        email: resultadoAutenticar[0].email,
-                                        nome: resultadoAutenticar[0].nome,
-                                        senha: resultadoAutenticar[0].senha,
-                                        aquarios: resultadoAquarios
+                                        id: resultado[0].id,
+                                        email: resultado[0].email,
+                                        nome: resultado[0].nome,
+                                        perfil: resultado[0].perfil  
                                     });
-                                } else {
-                                    res.status(204).json({ aquarios: [] });
-                                }
-                            })
-                    } else if (resultadoAutenticar.length == 0) {
+                    } else if (resultado.length == 0) {
                         res.status(403).send("Email e/ou senha inválido(s)");
                     } else {
                         res.status(403).send("Mais de um usuário com o mesmo login e senha!");
                     }
-                }
-            ).catch(
+})
+            
+            .catch(
                 function (erro) {
                     console.log(erro);
                     console.log("\nHouve um erro ao realizar o login! Erro: ", erro.sqlMessage);
@@ -55,39 +52,62 @@ function cadastrar(req, res) {
     var nome = req.body.nomeServer;
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
-    var fkEmpresa = req.body.idEmpresaVincularServer;
+    var proximidade = req.body.proximidadeServer;
+    var funcao = req.body.funcaoServer;
 
-    // Faça as validações dos valores
-    if (nome == undefined) {
-        res.status(400).send("Seu nome está undefined!");
-    } else if (email == undefined) {
-        res.status(400).send("Seu email está undefined!");
-    } else if (senha == undefined) {
-        res.status(400).send("Sua senha está undefined!");
-    } else if (fkEmpresa == undefined) {
-        res.status(400).send("Sua empresa a vincular está undefined!");
+      if (nome == undefined || nome == "") {
+        res.status(400).send("Informe seu nome.");
+    } else if (email == undefined || email == "") {
+        res.status(400).send("Informe seu email.");
+    } else if (senha == undefined || senha == "") {
+        res.status(400).send("Informe sua senha.");
+    } else if (proximidade == undefined || proximidade == "") {
+        res.status(400).send("Informe sua proximidade com o rap e com o Matheus?");
+    } else if (funcao == undefined || funcao == "") {
+        res.status(400).send("Informe sua função na música.");
     } else {
 
         // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
-        usuarioModel.cadastrar(nome, email, senha, fkEmpresa)
-            .then(
-                function (resultado) {
-                    res.json(resultado);
-                }
-            ).catch(
-                function (erro) {
-                    console.log(erro);
-                    console.log(
-                        "\nHouve um erro ao realizar o cadastro! Erro: ",
-                        erro.sqlMessage
-                    );
+usuarioModel.cadastrar(nome, email, senha, proximidade, funcao)
+            .then(function (resultado) {
+                res.json(resultado);
+            })
+            .catch(function (erro) {
+                console.log(erro);
+                if (erro.errno == 1062) {
+                    res.status(409).send("Este email já está cadastrado.");
+                } else {
                     res.status(500).json(erro.sqlMessage);
                 }
-            );
+            });
     }
+}
+
+function contarPorFuncao(req, res) {
+    usuarioModel.contarPorFuncao()
+        .then(function (resultado) {
+            res.json(resultado);
+        })
+        .catch(function (erro) {
+            console.log(erro);
+            res.status(500).send("Erro ao buscar os dados.");
+        });
+}
+
+function contarPorProximidade(req, res) {
+    usuarioModel.contarPorProximidade()
+        .then(function (resultado) {
+            res.json(resultado);
+        })
+        .catch(function (erro) {
+            console.log(erro);
+            res.status(500).send("Erro ao buscar os dados.");
+        });
 }
 
 module.exports = {
     autenticar,
-    cadastrar
+    cadastrar,
+    contarPorFuncao,
+    contarPorProximidade
 }

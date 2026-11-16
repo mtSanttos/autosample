@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Autosample | Admin</title>
+  <script src="./js/sessao.js"></script>
+</head>
+<body onload="validarAdmin()">
+  <h1>Área do admin</h1>
+  <p>Bem-vindo, <span id="nome_admin"></span>.</p>
+  <button onclick="limparSessao()">Sair</button>
+
+  <script>
+    nome_admin.innerHTML = sessionStorage.NOME_USUARIO;
+  </script>
+</body>
+</html>

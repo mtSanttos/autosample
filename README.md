@@ -40,68 +40,104 @@ O projeto nasceu com **3 objetivos**:
 
 ```mermaid
 flowchart LR
-    V[Visitante] -->|cria conta, lê, curte e comenta| S[Site]
-    A[Admin] -->|login e gerencia o conteúdo| S
-    S -->|requisições| API[API Node.js]
-    API -->|consultas| DB[(MySQL)]
+    V[Visitante] -->|cadastro e login| S[Site]
+    A[Admin] -->|login e área admin| S
+    S -->|fetch| R[Rotas]
+    R --> C[Controllers]
+    C --> M[Models]
+    M --> DB[(MySQL)]
 ```
 
-**Visitante**
-- Cadastro e login para interagir
-- Lê as letras (os *samples*), organizadas por fase da vida, tema ou emoção
-- Curte e comenta
-- Página **"Por trás da letra"** com o contexto de cada música
+### ✅ Já funciona
+- **Cadastro** com validação no front e no servidor, incluindo a força da senha, checada com um `for`
+- **Login** com redirecionamento por perfil: admin vai para a área admin, visitante para a home
+- **Home** com o disco de vinil girando 
+- **Painel** com dois gráficos (poesias por emoção e intensidade média) e três indicadores
+- **Banco** com 6 tabelas, chaves estrangeiras e dois relacionamentos N:M
 
-**Admin (eu)**
-- Login com área própria
-- Gerencia os marcos da minha caminhada (data, título, texto, foto ou áudio)
-- Cadastra e edita letras, com tags de tema, humor e emoção (raiva, superação, saudade...)
-- Linha do tempo emocional: gráfico dos meus humores ao longo do tempo
-
-**Se der tempo**
-- Mapa das influências (artistas, álbuns, batalhas, shows e o que aprendi com cada um)
-- Diário de bordo: etapas de cada música, com humor e motivação em cada uma
+### 🔜 Planejado
+- Cadastro de poesias e músicas pelo site
+- Humor do dia, para saber qual emoção mais se repete
+- Linha do tempo **Minha caminhada**
+- Curtir e comentar
+- Banco rodando em uma VM Linux
 
 ## 🛠️ Tecnologias
 
 | Camada | Tecnologia |
 | ------ | ---------- |
-| API | Node.js, Express |
-| Autenticação | JWT e bcrypt |
-| Banco de dados | MySQL, modelado e administrado com MySQL Workbench |
+| API | Node.js e Express |
+| Banco de dados | MySQL, administrado com MySQL Workbench |
+| Acesso ao banco | mysql2 |
+| Configuração | dotenv (variáveis no `.env.dev`) |
 | Site | HTML, CSS e JavaScript |
+| Gráficos | Chart.js |
+| Base do projeto | web-data-viz (SPTech) |
 
 ## 📁 Estrutura do repositório
 
 ```
 autosample/
-├── .docs/             # documentação, diagramas, pesquisa e imagens (.assets)
-├── backend/           # API Node.js
-├── banco-de-dados/    # scripts SQL e diagrama do banco
-├── frontend/          # site
-├── .gitignore
+├── .docs/             # documentação e imagens (.assets)
+├── public/            # front-end: o que o usuário vê
+│   ├── index.html     # home
+│   ├── login.html
+│   ├── cadastro.html
+│   ├── admin.html
+│   ├── dashboard/
+│   │   └── painel.html
+│   ├── css/           # estilo.css, painel.css, home.css
+│   ├── js/
+│   └── assets/        # imagens
+├── src/               # back-end
+│   ├── routes/        # caminhos da API
+│   ├── controllers/   # validações e regras
+│   ├── models/        # queries SQL
+│   └── database/      # config.js e script das tabelas
+├── app.js             # liga tudo e sobe o servidor
+├── package.json       # bibliotecas do projeto
+├── .env.example       # modelo das variáveis, sem valores
 ├── LICENSE
 └── README.md
 ```
 
-## 🚀 Como rodar
+## 🗄️ Banco de dados
 
-> 🚧 Em construção. Esta seção será preenchida conforme o projeto avança.
+![DER do Autosample](.docs/.assets/DER-autosample.png)
+
+| Tabela | O que guarda | Chaves |
+| ------ | ------------ | ------ |
+| `usuario` | Quem se cadastra: nome, e-mail, senha, proximidade, função e perfil | PK `id`; `email` único |
+| `poesia` | Título, texto e data de cada poesia | PK `idPoesia`; FK `fkUsuario` |
+| `musica` | Título, artista, link e data de cada música | PK `idMusica`; FK `fkUsuario` |
+| `emocao` | O catálogo de emoções | PK `idEmocao`; `nome` único |
+| `poesia_emocao` | Liga cada poesia às suas emoções, com a intensidade | PK composta (`fkPoesia`, `fkEmocao`) |
+| `musica_emocao` | Liga cada música às suas emoções, com a intensidade | PK composta (`fkMusica`, `fkEmocao`) |
+
+**Relacionamentos**
+- `usuario` 1:N `poesia`, e `usuario` 1:N `musica`
+- `poesia` N:M `emocao`, e `musica` N:M `emocao`, pelas tabelas associativas. A `intensidade` é um atributo **da relação**, e não de uma das pontas.
+
+O script de criação está em `src/database/script-tabelas.sql`, e o modelo editável (abre no Workbench) em `.docs/.assets/DER-Autosample.mwb`.
+
+## 🚀 Como rodar
 
 ```bash
 git clone <url-do-repositorio>
-cd autosample/backend
+cd autosample
 npm install
-cp .env.example .env   # preencha com os dados do seu banco
+cp .env.example .env.dev   # preencha com os dados do seu banco
 npm run dev
 ```
+
+Antes de subir o servidor, crie o banco no MySQL, dê `USE` nele e rode `src/database/script-tabelas.sql` para criar as 6 tabelas.
 
 ## 🔗 Links
 
 | Documento | Link |
 | --------- | ---- |
 | Documentação | Em breve |
-| Diagrama do banco | Em breve |
+| Diagrama do banco | [DER-autosample.png](.docs/.assets/DER-autosample.png) |
 | Protótipo das telas | Em breve |
 | Pesquisa e inovação | Em breve |
 | Gerenciador de tarefas | Em breve |
@@ -109,9 +145,9 @@ npm run dev
 ## 📍 Status
 
 - [x] Ideia e nome definidos
-- [ ] Banco de dados modelado
-- [ ] API: cadastro e login
-- [ ] API: marcos e letras
+- [x] Banco de dados modelado
+- [x] API: cadastro e login
+- [ ] API: poesias, músicas e emoções
 - [ ] Site
 - [ ] Pesquisa e documentação
 - [ ] Revisão final

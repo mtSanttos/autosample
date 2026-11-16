@@ -1,35 +1,95 @@
--- Arquivo de apoio, caso você queira criar tabelas como as aqui criadas para a API funcionar.
--- Você precisa executar os comandos no banco de dados para criar as tabelas,
--- ter este arquivo aqui não significa que a tabela em seu BD estará como abaixo!
-
-/*
-comandos para mysql server
-*/
-
-CREATE DATABASE autosample;
-
 USE autosample;
 
+DESCRIBE usuario;
 
 CREATE TABLE usuario (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	nome VARCHAR(50),
-	email VARCHAR(50),
-	senha VARCHAR(50),
-	proximidade VARCHAR(30),
-  	papel VARCHAR(10) NOT NULL DEFAULT 'visitante',
-  	dt_cadastro DATETIME DEFAULT CURRENT_TIMESTAMP,
-  	CONSTRAINT chk_papel CHECK (papel IN ('admin', 'visitante'))
+id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+nome	varchar(50) NOT NULL,
+email	varchar(100) NOT NULL UNIQUE,
+senha	varchar(255)NOT NULL,
+proximidade	varchar(30),
+funcao	varchar(30),
+perfil	varchar(10) NOT NULL, 
+dt_cadastro	DATETIME DEFAULT CURRENT_TIMESTAMP,
+CONSTRAINT chk_perfil CHECK ((perfil IN ('admin', 'visitante'))
 );
 
 
+CREATE TABLE emocao (
+  idEmocao INT NOT NULL AUTO_INCREMENT,
+  nome VARCHAR(45) NOT NULL,
+  PRIMARY KEY (idEmocao),
+  UNIQUE (nome)
+);
+
+CREATE TABLE poesia (
+  idPoesia INT NOT NULL AUTO_INCREMENT,
+  titulo VARCHAR(100) NOT NULL,
+  texto TEXT NOT NULL,
+  dtCriacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  fkUsuario INT NOT NULL,
+  PRIMARY KEY (idPoesia),
+  FOREIGN KEY (fkUsuario) REFERENCES usuario(id)
+  );
+  
+  CREATE TABLE musica (
+  idMusica INT NOT NULL AUTO_INCREMENT,
+  titulo VARCHAR(100) NOT NULL,
+  artista VARCHAR(100) NOT NULL,
+  link VARCHAR(255),
+  dtCriacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  fkUsuario INT NOT NULL,
+  PRIMARY KEY (idMusica),
+  FOREIGN KEY (fkUsuario) REFERENCES usuario(id)
+);
+
+CREATE TABLE poesia_emocao (
+  fkPoesia INT NOT NULL,
+  fkEmocao INT NOT NULL,
+  intensidade TINYINT NOT NULL,
+  PRIMARY KEY (fkPoesia, fkEmocao),
+  FOREIGN KEY (fkPoesia) REFERENCES poesia(idPoesia),
+  FOREIGN KEY (fkEmocao) REFERENCES emocao(idEmocao),
+  CHECK (intensidade BETWEEN 1 AND 5)
+);
+
+CREATE TABLE musica_emocao (
+  fkMusica INT NOT NULL,
+  fkEmocao INT NOT NULL,
+  intensidade TINYINT NOT NULL,
+  PRIMARY KEY (fkMusica, fkEmocao),
+  FOREIGN KEY (fkMusica) REFERENCES musica(idMusica),
+  FOREIGN KEY (fkEmocao) REFERENCES emocao(idEmocao),
+  CHECK (intensidade BETWEEN 1 AND 5)
+);
+
+SHOW TABLES;
 
 
-/* esta tabela deve estar de acordo com o que está em INSERT de sua API do arduino - dat-acqu-ino */
+SELECT e.nome,
+       COUNT(*) AS total,
+       AVG(pe.intensidade) AS media
+FROM poesia_emocao AS pe
+JOIN emocao AS e ON e.idEmocao = pe.fkEmocao
+GROUP BY e.nome;
+
+
+SELECT table_name, column_name, referenced_table_name, referenced_column_name
+FROM information_schema.key_column_usage
+WHERE table_schema = DATABASE() AND referenced_table_name IS NOT NULL;
 
 
 
-insert into empresa (razao_social, codigo_ativacao) values ('Empresa 1', 'ED145B');
-insert into empresa (razao_social, codigo_ativacao) values ('Empresa 2', 'A1B2C3');
-insert into aquario (descricao, fk_empresa) values ('Aquário de Estrela-do-mar', 1);
-insert into aquario (descricao, fk_empresa) values ('Aquário de Peixe-dourado', 2);
+
+
+
+
+
+
+
+
+
+
+
+
+

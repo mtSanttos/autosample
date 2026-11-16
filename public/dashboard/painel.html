@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel | Emoções</title>
+    <link rel="stylesheet" href="../css/estilo.css">
+    <link rel="stylesheet" href="../css/painel.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../js/sessao.js"></script>
+</head>
+
+<body>
+    <main class="painel">
+        <header class="painel-topo">
+            <h1>Emoções nas poesias</h1>
+            <p>Controle de emoções nas poesias</p>
+        </header>
+
+        <section class="painel-grade">
+            <section class="indicadores">
+                <article class="indicador">
+                    <span class="indicador-rotulo">Emoção mais frequente</span>
+                    <strong class="indicador-valor" id="indFrequente">—</strong>
+                </article>
+                <article class="indicador">
+                    <span class="indicador-rotulo">Maior intensidade média</span>
+                    <strong class="indicador-valor" id="indIntensa">—</strong>
+                </article>
+                <article class="indicador">
+                    <span class="indicador-rotulo">Emoções com poesia</span>
+                    <strong class="indicador-valor" id="indQuantidade">—</strong>
+                </article>
+            </section>
+            <article class="cartao">
+                <h2>Poesias por emoção</h2>
+                <canvas id="graficoEmocoes"></canvas>
+            </article>
+            <article class="cartao">
+                <h2>Intensidade média</h2>
+                <canvas id="graficoMedia"></canvas>
+            </article>
+        </section>
+    </main>
+
+    <script>
+        fetch("/dashboard/emocoes-poesia")
+            .then(function (resposta) {
+                return resposta.json();
+            })
+            .then(function (dados) {
+                var nomes = dados.map(function (item) {
+                    return item.nome;
+                });
+                var totais = dados.map(function (item) {
+                    return item.total;
+                });
+                var medias = dados.map(function (item) {
+                    return Number(item.media);
+                });
+                console.log(nomes, totais, medias);
+
+                var nomeFrequente = "—";
+                var maiorTotal = 0;
+                var nomeIntensa = "—";
+                var maiorMedia = 0;
+                var comPoesia = 0;
+
+                for (var i = 0; i < dados.length; i++) {
+                    var total = Number(dados[i].total);
+                    var media = Number(dados[i].media);
+
+                    if (total > maiorTotal) {
+                        maiorTotal = total;
+                        nomeFrequente = dados[i].nome;
+                    }
+                    if (media > maiorMedia) {
+                        maiorMedia = media;
+                        nomeIntensa = dados[i].nome;
+                    }
+                    if (total > 0) {
+                        comPoesia++;
+                    }
+                }
+
+                document.getElementById("indFrequente").innerHTML = nomeFrequente;
+                document.getElementById("indIntensa").innerHTML = nomeIntensa;
+                document.getElementById("indQuantidade").innerHTML = comPoesia;
+
+                new Chart(document.getElementById("graficoEmocoes"), {
+                    type: "bar",
+                    data: {
+                        labels: nomes,
+                        datasets: [{
+                            label: "Poesias por emoção",
+                            data: totais,
+                            backgroundColor: "#b45309"
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: { display: false }
+                        }
+                    }
+                });
+                new Chart(document.getElementById("graficoMedia"), {
+                    type: "bar",
+                    data: {
+                        labels: nomes,
+                        datasets: [{
+                            label: "Intensidade média",
+                            data: medias,
+                            backgroundColor: "#3b1d0f"
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: { display: false }
+                        }
+                    }
+                });
+            });
+    </script>
+
+</body>
+
+</html>
