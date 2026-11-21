@@ -20,21 +20,20 @@
 </head>
 
 <body>
-  <div class="header">
+<div class="header">
     <div class="container">
       <h1 class="titulo">Autosample</h1>
       <ul class="navbar">
-        <li class="agora">
-          <a href="#">Início</a>
-        </li>
         <li>
+          <a href="index.html">Início</a>
+        </li>
+        <li class="agora">
           <a href="simulador.html">Simulador</a>
         </li>
-        <li>|</li>
-        <li id="item_login"><a href="login.html">Login</a></li>
-        <li id="item_cadastro"><a href="cadastro.html">Cadastro</a></li>
+        <li class="divisor-menu">|</li>
+        <li id="item_login"><a href="login.html">Entrar</a></li>
+        <li id="item_cadastro" class="btn-cadastro"><a href="cadastro.html">Criar conta</a></li>
         <li id="item_usuario" style="display: none;">
-          <div class="hero-acoes" id="hero_acoes"></div>
           <span id="nome_usuario"></span>
           <a href="#" onclick="sair()">Sair</a>
         </li>
@@ -64,30 +63,78 @@
     </div>
   </section>
 
+  <section class="como-funciona">
+    <div class="container">
+      <h3>Como o Autosample funciona</h3>
+      <div class="passos-grid">
+        <div class="passo-card">
+          <span class="passo-numero">01</span>
+          <h4>Registre letras e memórias</h4>
+          <p>Guarde suas composições, bastidores e momentos que moldaram sua caminhada.</p>
+        </div>
+        <div class="passo-card">
+          <span class="passo-numero">02</span>
+          <h4>Conecte a uma emoção</h4>
+          <p>Classifique cada registro conforme o sentimento daquele período da sua vida.</p>
+        </div>
+        <div class="passo-card">
+          <span class="passo-numero">03</span>
+          <h4>Acompanhe sua evolução</h4>
+          <p>Visualize sua trajetória no painel e explore o simulador do projeto.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="capas">
     <div class="container">
-      <h3>E ter a caminhada escrita em letras de ouro</h3>
-      <div class="capas-grade">
-        <article class="capa">
-          <div class="capa-arte">Vai Mudar</div>
-          <p class="capa-legenda">2015, primeiro single</p>
-        </article>
-        <article class="capa">
-          <div class="capa-arte">Só resiste quem é</div>
-          <p class="capa-legenda">Primeiro feat com grandes parceiros</p>
-        </article>
-        <article class="capa">
-          <div class="capa-arte">Vai pra luta ou vai pra lona</div>
-          <p class="capa-legenda">Momento político de enorme impacto</p>
-        </article>
-        <article class="capa">
-          <div class="capa-arte">Jaco The north face</div>
-          <p class="capa-legenda">Real TRAP don’t stop</p>
-        </article>
-        <article class="capa">
-          <div class="capa-arte">Golden Era</div>
-          <p class="capa-legenda">ainda não lançada</p>
-        </article>
+      <h3>"E ter a caminhada escrita em letras de ouro"</h3>
+
+      <div class="timeline-intercalada">
+        <div class="timeline-item esquerda">
+          <div class="timeline-ano">2015</div>
+          <div class="timeline-card">
+            <img class="capa-foto" src="./assets/imgs/capas-linha-do-tempo/IMG_4506.JPG.jpeg" alt="Capa do single Vai Mudar">
+            <div class="capa-arte">Vai Mudar</div>
+            <p class="capa-legenda">Primeiro single</p>
+          </div>
+        </div>
+
+        <div class="timeline-item direita">
+          <div class="timeline-ano">2016</div>
+          <div class="timeline-card">
+            <img class="capa-foto" src="./assets/imgs/capas/2016-so-resiste.jpg" alt="Capa de Só resiste quem é">
+            <div class="capa-arte">Só resiste quem é</div>
+            <p class="capa-legenda">Primeiro feat com grandes parceiros</p>
+          </div>
+        </div>
+
+        <div class="timeline-item esquerda">
+          <div class="timeline-ano">2018</div>
+          <div class="timeline-card">
+            <img class="capa-foto" src="./assets/imgs/capas/2018-luta-ou-lona.jpg" alt="Capa de Vai pra luta ou vai pra lona">
+            <div class="capa-arte">Vai pra luta ou vai pra lona</div>
+            <p class="capa-legenda">Momento político de enorme impacto</p>
+          </div>
+        </div>
+
+        <div class="timeline-item direita">
+          <div class="timeline-ano">2022</div>
+          <div class="timeline-card">
+            <img class="capa-foto" src="./assets/imgs/capas-linha-do-tempo/IMG_0008.JPG.jpeg" alt="Capa de Jaco The north face">
+            <div class="capa-arte">Jaco The north face</div>
+            <p class="capa-legenda">Real TRAP don’t stop</p>
+          </div>
+        </div>
+
+        <div class="timeline-item esquerda">
+          <div class="timeline-ano">2025</div>
+          <div class="timeline-card">
+            <img class="capa-foto" src="./assets/imgs/capas-linha-do-tempo/img-10.jpg" alt="Capa de Golden Era">
+            <div class="capa-arte">Golden Era</div>
+            <p class="capa-legenda">Ainda não lançada</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>

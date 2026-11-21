@@ -3,16 +3,200 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Autosample | Admin</title>
+  <title>Autosample | Painel do Admin</title>
   <script src="./js/sessao.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/estilo.css">
+  <link rel="stylesheet" href="./css/painel.css">
+  <style>
+    body {
+      background-color: var(--marrom);
+      color: var(--creme);
+      font-family: 'Barlow', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .admin-header {
+      background: linear-gradient(135deg, var(--marrom), var(--ambar));
+      border-bottom: 2px solid var(--ambar);
+      padding: 20px 0;
+    }
+    .admin-header .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 80%;
+      margin: auto;
+    }
+    .admin-header h1 {
+      font-family: 'Permanent Marker', cursive;
+      color: var(--dourado);
+      margin: 0;
+      font-size: 2rem;
+    }
+    .admin-header button {
+      background-color: var(--ambar);
+      color: var(--creme);
+      border: 2px solid var(--dourado);
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .admin-container {
+      width: 80%;
+      margin: 40px auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+    @media (max-width: 900px) {
+      .admin-container {
+        grid-template-columns: 1fr;
+      }
+    }
+    .card-admin {
+      background-color: var(--creme);
+      color: var(--marrom);
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    }
+    .card-admin h2 {
+      font-family: 'Permanent Marker', cursive;
+      color: var(--ambar);
+      margin-top: 0;
+      font-size: 1.5rem;
+    }
+    .form-grupo {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 16px;
+    }
+    .form-grupo label {
+      font-weight: bold;
+      margin-bottom: 6px;
+      font-size: 0.95rem;
+    }
+    .form-grupo input, .form-grupo textarea, .form-grupo select {
+      padding: 10px;
+      border: 2px solid var(--ambar);
+      border-radius: 6px;
+      font-size: 1rem;
+      background-color: #fff;
+      color: var(--marrom);
+    }
+    .form-grupo textarea {
+      resize: vertical;
+      height: 90px;
+    }
+    .btn-cadastrar {
+      background-color: var(--ambar);
+      color: var(--creme);
+      border: none;
+      padding: 12px;
+      width: 100%;
+      border-radius: 6px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-cadastrar:hover {
+      background-color: var(--marrom);
+    }
+  </style>
 </head>
 <body onload="validarAdmin()">
-  <h1>Área do admin</h1>
-  <p>Bem-vindo, <span id="nome_admin"></span>.</p>
-  <button onclick="limparSessao()">Sair</button>
+
+  <header class="admin-header">
+    <div class="container">
+      <h1>Autosample | Admin</h1>
+      <div>
+        <span>Bem-vindo, <strong id="nome_admin"></strong></span>
+        <button onclick="limparSessao()">Sair</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="admin-container">
+    <!-- Formulário de Poesia -->
+    <section class="card-admin">
+      <h2>Cadastrar Poesia</h2>
+      <div class="form-grupo">
+        <label for="titulo_poesia">Título da Poesia:</label>
+        <input type="text" id="titulo_poesia" placeholder="Ex: Golden Era">
+      </div>
+      <div class="form-grupo">
+        <label for="texto_poesia">Texto / Versos:</label>
+        <textarea id="texto_poesia" placeholder="Escreva os versos aqui..."></textarea>
+      </div>
+      <div class="form-grupo">
+        <label for="emocao_poesia">Emoção Principal:</label>
+        <select id="emocao_poesia">
+          <option value="">Selecione a emoção</option>
+          <option value="1">Reflexivo</option>
+          <option value="2">Determinado</option>
+          <option value="3">Nostálgico</option>
+          <option value="4">Revoltado</option>
+          <option value="5">Grato</option>
+        </select>
+      </div>
+      <div class="form-grupo">
+        <label for="intensidade_poesia">Intensidade (1 a 5):</label>
+        <input type="number" id="intensidade_poesia" min="1" max="5" value="3">
+      </div>
+      <button class="btn-cadastrar" onclick="cadastrarPoesia()">Cadastrar Poesia</button>
+    </section>
+
+    <!-- Formulário de Música -->
+    <section class="card-admin">
+      <h2>Cadastrar Música (Sample)</h2>
+      <div class="form-grupo">
+        <label for="titulo_musica">Título da Música:</label>
+        <input type="text" id="titulo_musica" placeholder="Ex: My Life">
+      </div>
+      <div class="form-grupo">
+        <label for="artista_musica">Artista / Produtor:</label>
+        <input type="text" id="artista_musica" placeholder="Ex: Roy Ayers">
+      </div>
+      <div class="form-grupo">
+        <label for="link_musica">Link (YouTube / Spotify):</label>
+        <input type="text" id="link_musica" placeholder="https://...">
+      </div>
+      <div class="form-grupo">
+        <label for="emocao_musica">Emoção Principal:</label>
+     <select id="emocao_poesia">
+  <option value="">Selecione a emoção</option>
+  <option value="1">Amor</option>
+  <option value="2">Saudade</option>
+  <option value="3">Verdade</option>
+  <option value="4">Tristeza</option>
+  <option value="5">Alegria</option>
+  <option value="6">Realização</option>
+  <option value="7">Orgulho</option>
+</select>
+      </div>
+      <div class="form-grupo">
+        <label for="intensidade_musica">Intensidade (1 a 5):</label>
+        <input type="number" id="intensidade_musica" min="1" max="5" value="3">
+      </div>
+      <button class="btn-cadastrar" onclick="cadastrarMusica()">Cadastrar Música</button>
+    </section>
+  </main>
 
   <script>
+    // Exibe o nome do administrador na barra superior
     nome_admin.innerHTML = sessionStorage.NOME_USUARIO;
+
+    function cadastrarPoesia() {
+      alert("Função de cadastro de poesia será integrada na próxima etapa.");
+    }
+
+    function cadastrarMusica() {
+      alert("Função de cadastro de música será integrada na próxima etapa.");
+    }
   </script>
 </body>
 </html>

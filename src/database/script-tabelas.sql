@@ -14,7 +14,6 @@ dt_cadastro	DATETIME DEFAULT CURRENT_TIMESTAMP,
 CONSTRAINT chk_perfil CHECK ((perfil IN ('admin', 'visitante'))
 );
 
-
 CREATE TABLE emocao (
   idEmocao INT NOT NULL AUTO_INCREMENT,
   nome VARCHAR(45) NOT NULL,
