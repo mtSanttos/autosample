@@ -47,3 +47,93 @@
 .indicador-valor {
   font-size: 1.8rem;
 }
+
+.secao-poesias {
+  margin-top: 32px;
+}
+
+.secao-titulo {
+  color: var(--creme);
+  margin-bottom: 16px;
+}
+
+.secao-titulo h2 {
+  font-family: var(--fonte-rua);
+  color: var(--dourado);
+  margin: 0 0 6px 0;
+  font-size: 1.6rem;
+}
+
+.secao-titulo p {
+  margin: 0;
+  color: rgba(255, 247, 237, 0.75);
+  font-size: 0.95rem;
+}
+
+.grade-poesias {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.card-poesia {
+  background: var(--creme);
+  color: var(--marrom);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+  border-left: 5px solid var(--ambar);
+  transition: transform 0.2s ease;
+}
+
+.card-poesia:hover {
+  transform: translateY(-3px);
+}
+
+.poesia-cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.poesia-cabecalho h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: var(--marrom);
+  font-weight: 700;
+}
+
+.tag-emocao {
+  background-color: var(--ambar);
+  color: var(--creme);
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 4px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.poesia-texto {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #4a2c1b;
+  margin: 0 0 16px 0;
+  white-space: pre-line;
+  font-style: italic;
+}
+
+.poesia-rodape {
+  font-size: 0.8rem;
+  color: rgba(59, 29, 15, 0.65);
+  border-top: 1px dashed rgba(59, 29, 15, 0.2);
+  padding-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
