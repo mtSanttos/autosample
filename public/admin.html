@@ -31,6 +31,32 @@
       align-items: center;
       width: 80%;
       margin: auto;
+      gap: 20px;
+    }
+
+    .admin-nav {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .admin-nav a {
+      color: var(--creme);
+      text-decoration: none;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      border: 1px solid rgba(240, 169, 59, 0.4);
+      transition: all 0.2s ease;
+    }
+
+    .admin-nav a:hover,
+    .admin-nav a.ativo {
+      background-color: var(--dourado);
+      color: var(--marrom);
+      border-color: var(--dourado);
     }
 
     .admin-header h1 {
@@ -131,6 +157,12 @@
   <header class="admin-header">
     <div class="container">
       <h1>Autosample | Admin</h1>
+      <nav class="admin-nav">
+        <a href="./index.html">🏠 Início</a>
+        <a href="./admin.html" class="ativo">⚙️ Cadastro</a>
+        <a href="./dashboard/painel.html">📊 Dashboard</a>
+        <a href="./acervo.html">🎵 Acervo (Poesias & Músicas)</a>
+      </nav>
       <div>
         <span>Bem-vindo, <strong id="nome_admin"></strong></span>
         <button onclick="limparSessao()">Sair</button>
