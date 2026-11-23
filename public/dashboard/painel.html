@@ -12,10 +12,23 @@
 </head>
 
 <body>
+    <header class="painel-navegacao">
+        <div class="painel-navegacao-container">
+            <span class="logo-painel">Autosample</span>
+            <nav class="nav-links">
+                <a href="../index.html">🏠 Início</a>
+                <a href="./painel.html" class="ativo">📊 Dashboard</a>
+                <a href="../acervo.html">🎵 Acervo (Obras)</a>
+                <a href="../admin.html">⚙️ Admin</a>
+                <a href="#" onclick="limparSessao()" class="btn-sair">Sair</a>
+            </nav>
+        </div>
+    </header>
+
     <main class="painel">
         <header class="painel-topo">
             <h1>Emoções nas poesias</h1>
-            <p>Controle de emoções nas poesias</p>
+            <p>Controle de métricas e indicadores de intensidade emocional</p>
         </header>
 
         <section class="painel-grade">
@@ -41,16 +54,6 @@
                 <h2>Intensidade média</h2>
                 <canvas id="graficoMedia"></canvas>
             </article>
-        </section>
-
-        <section class="secao-poesias">
-            <header class="secao-titulo">
-                <h2>Listagem de Poesias</h2>
-                <p>Versos e rimas cadastradas com suas emoções</p>
-            </header>
-            <div id="listaPoesias" class="grade-poesias">
-                <!-- Cards renderizados dinamicamente via JS -->
-            </div>
         </section>
     </main>
 
@@ -131,60 +134,6 @@
                     }
                 });
             });
-
-        function listarPoesias() {
-            fetch("/dashboard/listar-poesias")
-                .then(function (resposta) {
-                    if (resposta.ok) {
-                        return resposta.json();
-                    } else {
-                        throw new Error("Erro ao buscar poesias");
-                    }
-                })
-                .then(function (poesias) {
-                    var container = document.getElementById("listaPoesias");
-                    container.innerHTML = "";
-
-                    if (poesias.length == 0) {
-                        container.innerHTML = "<p style='color: var(--creme); font-size: 1rem;'>Nenhuma poesia cadastrada ainda.</p>";
-                        return;
-                    }
-
-                    for (var i = 0; i < poesias.length; i++) {
-                        var p = poesias[i];
-                        var emocaoFormatada = p.emocao;
-                        if (emocaoFormatada == "realizacao") {
-                            emocaoFormatada = "Realização";
-                        } else if (emocaoFormatada) {
-                            emocaoFormatada = emocaoFormatada.charAt(0).toUpperCase() + emocaoFormatada.slice(1);
-                        } else {
-                            emocaoFormatada = "Sem emoção";
-                        }
-                        var intensidadeTexto = p.intensidade ? ` (Nvl ${p.intensidade})` : "";
-                        var autorTexto = p.autor ? p.autor : "Matheus";
-                        var dataTexto = p.dtCriacaoFormatada ? p.dtCriacaoFormatada : "";
-
-                        container.innerHTML += `
-                            <article class="card-poesia">
-                                <div class="poesia-cabecalho">
-                                    <h3>${p.titulo}</h3>
-                                    <span class="tag-emocao">${emocaoFormatada}${intensidadeTexto}</span>
-                                </div>
-                                <p class="poesia-texto">${p.texto}</p>
-                                <div class="poesia-rodape">
-                                    <span>Escrito por: <strong>${autorTexto}</strong></span>
-                                    <span>${dataTexto}</span>
-                                </div>
-                            </article>
-                        `;
-                    }
-                })
-                .catch(function (erro) {
-                    console.log("Erro ao carregar a listagem de poesias:", erro);
-                });
-        }
-
-        listarPoesias();
     </script>
 
 </body>
