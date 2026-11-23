@@ -19,4 +19,8 @@ router.get("/listar-poesias", function (req, res) {
     dashboardController.listarPoesias(req, res);
 });
 
+router.get("/listar-musicas", function (req, res) {
+    dashboardController.listarMusicas(req, res);
+});
+
 module.exports = router;

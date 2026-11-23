@@ -68,9 +68,21 @@ function listarPoesias(req, res) {
         });
 }
 
+function listarMusicas(req, res) {
+    dashboardModel.listarMusicas()
+        .then(function (resultado) {
+            res.status(200).json(resultado);
+        })
+        .catch(function (erro) {
+            console.log("Erro ao listar músicas:", erro.sqlMessage);
+            res.status(500).json("Erro ao buscar as músicas.");
+        });
+}
+
 module.exports = {
     buscarEmocoesPoesia,
     cadastrarMusica,
     cadastrarPoesia,
-    listarPoesias
+    listarPoesias,
+    listarMusicas
 };

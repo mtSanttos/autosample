@@ -81,9 +81,30 @@ function listarPoesias() {
     return database.executar(instrucaoSql);
 }
 
+function listarMusicas() {
+    var instrucaoSql = `
+        SELECT m.idMusica,
+               m.titulo,
+               m.artista,
+               m.link,
+               DATE_FORMAT(m.dtCriacao, '%d/%m/%Y %H:%i') AS dtCriacaoFormatada,
+               e.nome AS emocao,
+               me.intensidade,
+               u.nome AS autor
+        FROM musica m
+        JOIN usuario u ON m.fkUsuario = u.id
+        LEFT JOIN musica_emocao me ON m.idMusica = me.fkMusica
+        LEFT JOIN emocao e ON me.fkEmocao = e.idEmocao
+        ORDER BY m.idMusica DESC;
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     buscarEmocoesPoesia,
     inserirMusica,
     inserirPoesia,
-    listarPoesias
+    listarPoesias,
+    listarMusicas
 };
