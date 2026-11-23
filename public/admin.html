@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -17,11 +18,13 @@
       margin: 0;
       padding: 0;
     }
+
     .admin-header {
       background: linear-gradient(135deg, var(--marrom), var(--ambar));
       border-bottom: 2px solid var(--ambar);
       padding: 20px 0;
     }
+
     .admin-header .container {
       display: flex;
       justify-content: space-between;
@@ -29,12 +32,14 @@
       width: 80%;
       margin: auto;
     }
+
     .admin-header h1 {
       font-family: 'Permanent Marker', cursive;
       color: var(--dourado);
       margin: 0;
       font-size: 2rem;
     }
+
     .admin-header button {
       background-color: var(--ambar);
       color: var(--creme);
@@ -44,6 +49,7 @@
       cursor: pointer;
       font-weight: bold;
     }
+
     .admin-container {
       width: 80%;
       margin: 40px auto;
@@ -51,35 +57,43 @@
       grid-template-columns: 1fr 1fr;
       gap: 30px;
     }
+
     @media (max-width: 900px) {
       .admin-container {
         grid-template-columns: 1fr;
       }
     }
+
     .card-admin {
       background-color: var(--creme);
       color: var(--marrom);
       border-radius: 10px;
       padding: 30px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
     }
+
     .card-admin h2 {
       font-family: 'Permanent Marker', cursive;
       color: var(--ambar);
       margin-top: 0;
       font-size: 1.5rem;
     }
+
     .form-grupo {
       display: flex;
       flex-direction: column;
       margin-bottom: 16px;
     }
+
     .form-grupo label {
       font-weight: bold;
       margin-bottom: 6px;
       font-size: 0.95rem;
     }
-    .form-grupo input, .form-grupo textarea, .form-grupo select {
+
+    .form-grupo input,
+    .form-grupo textarea,
+    .form-grupo select {
       padding: 10px;
       border: 2px solid var(--ambar);
       border-radius: 6px;
@@ -87,10 +101,12 @@
       background-color: #fff;
       color: var(--marrom);
     }
+
     .form-grupo textarea {
       resize: vertical;
       height: 90px;
     }
+
     .btn-cadastrar {
       background-color: var(--ambar);
       color: var(--creme);
@@ -103,11 +119,13 @@
       cursor: pointer;
       transition: background 0.2s;
     }
+
     .btn-cadastrar:hover {
       background-color: var(--marrom);
     }
   </style>
 </head>
+
 <body onload="validarAdmin()">
 
   <header class="admin-header">
@@ -136,11 +154,13 @@
         <label for="emocao_poesia">Emoção Principal:</label>
         <select id="emocao_poesia">
           <option value="">Selecione a emoção</option>
-          <option value="1">Reflexivo</option>
-          <option value="2">Determinado</option>
-          <option value="3">Nostálgico</option>
-          <option value="4">Revoltado</option>
-          <option value="5">Grato</option>
+          <option value="amor">Amor</option>
+          <option value="saudade">Saudade</option>
+          <option value="verdade">Verdade</option>
+          <option value="tristeza">Tristeza</option>
+          <option value="alegria">Alegria</option>
+          <option value="realizacao">Realização</option>
+          <option value="orgulho">Orgulho</option>
         </select>
       </div>
       <div class="form-grupo">
@@ -150,12 +170,12 @@
       <button class="btn-cadastrar" onclick="cadastrarPoesia()">Cadastrar Poesia</button>
     </section>
 
-    <!-- Formulário de Música -->
+
     <section class="card-admin">
       <h2>Cadastrar Música (Sample)</h2>
       <div class="form-grupo">
         <label for="titulo_musica">Título da Música:</label>
-        <input type="text" id="titulo_musica" placeholder="Ex: My Life">
+        <input type="text" id="titulo_musica" placeholder="Ex: My Life" required>
       </div>
       <div class="form-grupo">
         <label for="artista_musica">Artista / Produtor:</label>
@@ -167,16 +187,16 @@
       </div>
       <div class="form-grupo">
         <label for="emocao_musica">Emoção Principal:</label>
-     <select id="emocao_poesia">
-  <option value="">Selecione a emoção</option>
-  <option value="1">Amor</option>
-  <option value="2">Saudade</option>
-  <option value="3">Verdade</option>
-  <option value="4">Tristeza</option>
-  <option value="5">Alegria</option>
-  <option value="6">Realização</option>
-  <option value="7">Orgulho</option>
-</select>
+        <select id="emocao_musica">
+          <option value="">Selecione a emoção</option>
+          <option value="amor">Amor</option>
+          <option value="saudade">Saudade</option>
+          <option value="verdade">Verdade</option>
+          <option value="tristeza">Tristeza</option>
+          <option value="alegria">Alegria</option>
+          <option value="realizacao">Realização</option>
+          <option value="orgulho">Orgulho</option>
+        </select>
       </div>
       <div class="form-grupo">
         <label for="intensidade_musica">Intensidade (1 a 5):</label>
@@ -187,16 +207,84 @@
   </main>
 
   <script>
-    // Exibe o nome do administrador na barra superior
+
     nome_admin.innerHTML = sessionStorage.NOME_USUARIO;
 
     function cadastrarPoesia() {
-      alert("Função de cadastro de poesia será integrada na próxima etapa.");
+      let tituloPoesia = document.getElementById("titulo_poesia").value;
+      let textoPoesia = document.getElementById("texto_poesia").value;
+      let emocaoPoesia = document.getElementById("emocao_poesia").value;
+      let intensidadePoesia = document.getElementById("intensidade_poesia").value;
+
+      if (tituloPoesia == "" || textoPoesia == "" || emocaoPoesia == "") {
+        alert("Por favor, preencha todos os campos da poesia!");
+        return false;
+      }
+
+      fetch("/dashboard/cadastrar-poesia", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          titulo: tituloPoesia,
+          texto: textoPoesia,
+          emocao: emocaoPoesia,
+          intensidade: intensidadePoesia,
+          usuario_id: sessionStorage.getItem("ID_USUARIO")
+        })
+      }).then(function (resposta) {
+        if (resposta.ok) {
+          alert("Poesia cadastrada com sucesso!");
+          location.reload();
+        } else {
+          alert("Erro ao cadastrar poesia!");
+        }
+      }).catch(function (error) {
+        alert(error);
+      });
     }
 
     function cadastrarMusica() {
-      alert("Função de cadastro de música será integrada na próxima etapa.");
+      let tituloMusica = document.getElementById("titulo_musica").value;
+      let artistaMusica = document.getElementById("artista_musica").value
+      let linkMusica = document.getElementById("link_musica").value
+      let emocaoMusica = document.getElementById("emocao_musica").value
+      let intensidadeMusica = document.getElementById("intensidade_musica").value
+
+      fetch("/dashboard/cadastrar-musica", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          titulo: tituloMusica,
+          artista: artistaMusica,
+          link: linkMusica,
+          emocao: emocaoMusica,
+          intensidade: intensidadeMusica,
+          usuario_id: sessionStorage.getItem("ID_USUARIO")
+        })
+      }).then(function (resposta) {
+        alert("Cadastrado com sucesso")
+        location.reload();
+      }).catch(function (error) {
+        alert(error);
+      })
+
+
+
+
     }
+
+
+
+
+
+
+
+
   </script>
 </body>
+
 </html>
