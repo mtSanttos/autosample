@@ -1,0 +1,241 @@
+.acervo-header {
+  background: rgba(59, 29, 15, 0.96);
+  border-bottom: 2px solid rgba(240, 169, 59, 0.35);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(6px);
+  padding: 16px 0;
+}
+
+.acervo-header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 85%;
+  margin: auto;
+}
+
+.acervo-header h1 {
+  font-family: var(--fonte-rua);
+  color: var(--dourado);
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.acervo-nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.acervo-nav a {
+  text-decoration: none;
+  color: var(--creme);
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.acervo-nav a:hover,
+.acervo-nav a.ativo {
+  background-color: var(--ambar);
+  color: var(--creme);
+}
+
+.acervo-hero {
+  text-align: center;
+  padding: 40px 20px 20px;
+  color: var(--creme);
+}
+
+.acervo-hero h2 {
+  font-family: var(--fonte-rua);
+  font-size: 2.5rem;
+  color: var(--dourado);
+  margin: 0 0 10px 0;
+}
+
+.acervo-hero p {
+  font-size: 1.1rem;
+  color: rgba(255, 247, 237, 0.85);
+  max-width: 650px;
+  margin: 0 auto 24px;
+}
+
+.acervo-filtros {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+
+.btn-filtro {
+  background: transparent;
+  color: var(--creme);
+  border: 2px solid var(--ambar);
+  padding: 10px 22px;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-filtro:hover,
+.btn-filtro.ativo {
+  background: var(--ambar);
+  color: var(--creme);
+  border-color: var(--dourado);
+  box-shadow: 0 4px 12px rgba(180, 83, 9, 0.4);
+}
+
+.acervo-container {
+  width: 85%;
+  max-width: 1200px;
+  margin: 0 auto 60px;
+}
+
+.secao-bloco {
+  margin-bottom: 48px;
+}
+
+.secao-header-linha {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid rgba(240, 169, 59, 0.3);
+  padding-bottom: 12px;
+  margin-bottom: 24px;
+}
+
+.secao-header-linha h3 {
+  font-family: var(--fonte-rua);
+  font-size: 1.8rem;
+  color: var(--dourado);
+  margin: 0;
+}
+
+.badge-contador {
+  background: var(--ambar);
+  color: var(--creme);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.grade-obras {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+/* Card Poesia */
+.card-obra {
+  background: var(--creme);
+  color: var(--marrom);
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  border-left: 6px solid var(--ambar);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card-obra:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+}
+
+.card-obra.obra-musica {
+  border-left-color: var(--dourado);
+}
+
+.obra-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.obra-titulo {
+  margin: 0;
+  font-size: 1.35rem;
+  color: var(--marrom);
+  font-weight: 700;
+}
+
+.obra-subtitulo {
+  margin: 4px 0 0 0;
+  font-size: 0.95rem;
+  color: #78350f;
+  font-weight: 600;
+}
+
+.tag-emocao {
+  background-color: var(--ambar);
+  color: var(--creme);
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 5px 12px;
+  border-radius: 20px;
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.obra-texto {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #4a2c1b;
+  margin: 0 0 18px 0;
+  white-space: pre-line;
+  font-style: italic;
+}
+
+.obra-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--marrom);
+  color: var(--dourado);
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.9rem;
+  padding: 8px 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  width: fit-content;
+  transition: background 0.2s ease;
+}
+
+.obra-link-btn:hover {
+  background-color: var(--ambar);
+  color: var(--creme);
+}
+
+.obra-rodape {
+  font-size: 0.85rem;
+  color: rgba(59, 29, 15, 0.7);
+  border-top: 1px dashed rgba(59, 29, 15, 0.25);
+  padding-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mensagem-vazia {
+  color: var(--creme);
+  font-size: 1.05rem;
+  padding: 20px;
+  background: rgba(255, 247, 237, 0.08);
+  border-radius: 8px;
+  border: 1px dashed rgba(240, 169, 59, 0.4);
+}

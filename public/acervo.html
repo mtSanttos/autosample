@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Autosample | Acervo de Poesias e Músicas</title>
+
+  <script src="./js/sessao.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/estilo.css">
+  <link rel="stylesheet" href="./css/acervo.css">
+  <link rel="icon" type="image/png" href="./assets/imgs/simbolo.png">
+</head>
+
+<body>
+
+  <header class="acervo-header">
+    <div class="container">
+      <h1>Autosample</h1>
+      <nav class="acervo-nav">
+        <a href="index.html">🏠 Início</a>
+        <a href="acervo.html" class="ativo">🎵 Acervo (Obras)</a>
+        <a href="dashboard/painel.html">📊 Dashboard</a>
+        <a href="admin.html">⚙️ Admin</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="acervo-hero">
+    <p style="font-family: var(--fonte-rua); color: var(--dourado); font-size: 1.2rem; margin: 0;">i s2 myLife</p>
+    <h2>Acervo Cultural</h2>
+    <p>O arquivo vivo do hip-hop: poesias escritas na caneta e os samples de músicas que constroem cada batida.</p>
+
+    <div class="acervo-filtros">
+      <button class="btn-filtro ativo" id="btnFiltroTodas" onclick="filtrar('todas')">Todas as Obras</button>
+      <button class="btn-filtro" id="btnFiltroPoesias" onclick="filtrar('poesias')">🎙️ Somente Poesias</button>
+      <button class="btn-filtro" id="btnFiltroMusicas" onclick="filtrar('musicas')">🎵 Somente Músicas</button>
+    </div>
+  </section>
+
+  <main class="acervo-container">
+
+    <!-- Seção de Poesias -->
+    <section class="secao-bloco" id="secaoPoesias">
+      <div class="secao-header-linha">
+        <h3>🎙️ Poesias & Versos</h3>
+        <span class="badge-contador" id="contadorPoesias">0 registradas</span>
+      </div>
+      <div class="grade-obras" id="gradePoesias">
+        <!-- Inseridas dinamicamente com for via JS -->
+      </div>
+    </section>
+
+    <!-- Seção de Músicas -->
+    <section class="secao-bloco" id="secaoMusicas">
+      <div class="secao-header-linha">
+        <h3>🎵 Músicas (Samples)</h3>
+        <span class="badge-contador" id="contadorMusicas">0 registradas</span>
+      </div>
+      <div class="grade-obras" id="gradeMusicas">
+        <!-- Inseridas dinamicamente com for via JS -->
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    function formatarEmocao(nome) {
+      if (!nome) return "Sem emoção";
+      if (nome.toLowerCase() === "realizacao") return "Realização";
+      return nome.charAt(0).toUpperCase() + nome.slice(1).toLowerCase();
+    }
+
+    function carregarPoesias() {
+      fetch("/dashboard/listar-poesias")
+        .then(function (resposta) {
+          if (resposta.ok) {
+            return resposta.json();
+          } else {
+            throw new Error("Erro ao buscar poesias.");
+          }
+        })
+        .then(function (poesias) {
+          var container = document.getElementById("gradePoesias");
+          var contador = document.getElementById("contadorPoesias");
+          container.innerHTML = "";
+
+          contador.innerHTML = poesias.length + (poesias.length === 1 ? " poesia" : " poesias");
+
+          if (poesias.length === 0) {
+            container.innerHTML = "<div class='mensagem-vazia'>Nenhuma poesia cadastrada no momento.</div>";
+            return;
+          }
+
+          // Algoritmo com for para percorrer o vetor de dados
+          for (var i = 0; i < poesias.length; i++) {
+            var item = poesias[i];
+            var emocao = formatarEmocao(item.emocao);
+            var intensidade = item.intensidade ? ` (Nvl ${item.intensidade})` : "";
+            var autor = item.autor || "Matheus";
+            var data = item.dtCriacaoFormatada || "";
+
+            container.innerHTML += `
+              <article class="card-obra">
+                <div>
+                  <div class="obra-topo">
+                    <h4 class="obra-titulo">${item.titulo}</h4>
+                    <span class="tag-emocao">${emocao}${intensidade}</span>
+                  </div>
+                  <p class="obra-texto">${item.texto}</p>
+                </div>
+                <div class="obra-rodape">
+                  <span>Autor: <strong>${autor}</strong></span>
+                  <span>${data}</span>
+                </div>
+              </article>
+            `;
+          }
+        })
+        .catch(function (erro) {
+          console.error("Erro ao carregar poesias:", erro);
+          document.getElementById("gradePoesias").innerHTML = "<div class='mensagem-vazia'>Erro ao carregar poesias do servidor.</div>";
+        });
+    }
+
+    function carregarMusicas() {
+      fetch("/dashboard/listar-musicas")
+        .then(function (resposta) {
+          if (resposta.ok) {
+            return resposta.json();
+          } else {
+            throw new Error("Erro ao buscar músicas.");
+          }
+        })
+        .then(function (musicas) {
+          var container = document.getElementById("gradeMusicas");
+          var contador = document.getElementById("contadorMusicas");
+          container.innerHTML = "";
+
+          contador.innerHTML = musicas.length + (musicas.length === 1 ? " música" : " músicas");
+
+          if (musicas.length === 0) {
+            container.innerHTML = "<div class='mensagem-vazia'>Nenhuma música sampleada cadastrada no momento.</div>";
+            return;
+          }
+
+          // Algoritmo com for para percorrer o vetor de dados
+          for (var i = 0; i < musicas.length; i++) {
+            var item = musicas[i];
+            var emocao = formatarEmocao(item.emocao);
+            var intensidade = item.intensidade ? ` (Nvl ${item.intensidade})` : "";
+            var autor = item.autor || "Matheus";
+            var data = item.dtCriacaoFormatada || "";
+
+            var botaoLink = "";
+            if (item.link && item.link.trim() !== "") {
+              botaoLink = `<a href="${item.link}" target="_blank" rel="noopener noreferrer" class="obra-link-btn">▶ Ouvir Sample</a>`;
+            }
+
+            container.innerHTML += `
+              <article class="card-obra obra-musica">
+                <div>
+                  <div class="obra-topo">
+                    <div>
+                      <h4 class="obra-titulo">${item.titulo}</h4>
+                      <p class="obra-subtitulo">Artista: ${item.artista}</p>
+                    </div>
+                    <span class="tag-emocao" style="background-color: var(--dourado); color: var(--marrom);">${emocao}${intensidade}</span>
+                  </div>
+                  ${botaoLink}
+                </div>
+                <div class="obra-rodape">
+                  <span>Adicionado por: <strong>${autor}</strong></span>
+                  <span>${data}</span>
+                </div>
+              </article>
+            `;
+          }
+        })
+        .catch(function (erro) {
+          console.error("Erro ao carregar músicas:", erro);
+          document.getElementById("gradeMusicas").innerHTML = "<div class='mensagem-vazia'>Erro ao carregar músicas do servidor.</div>";
+        });
+    }
+
+    function filtrar(tipo) {
+      var secaoPoesias = document.getElementById("secaoPoesias");
+      var secaoMusicas = document.getElementById("secaoMusicas");
+      var btnTodas = document.getElementById("btnFiltroTodas");
+      var btnPoesias = document.getElementById("btnFiltroPoesias");
+      var btnMusicas = document.getElementById("btnFiltroMusicas");
+
+      btnTodas.classList.remove("ativo");
+      btnPoesias.classList.remove("ativo");
+      btnMusicas.classList.remove("ativo");
+
+      if (tipo === "poesias") {
+        secaoPoesias.style.display = "block";
+        secaoMusicas.style.display = "none";
+        btnPoesias.classList.add("ativo");
+      } else if (tipo === "musicas") {
+        secaoPoesias.style.display = "none";
+        secaoMusicas.style.display = "block";
+        btnMusicas.classList.add("ativo");
+      } else {
+        secaoPoesias.style.display = "block";
+        secaoMusicas.style.display = "block";
+        btnTodas.classList.add("ativo");
+      }
+    }
+
+    // Inicialização ao carregar a página
+    carregarPoesias();
+    carregarMusicas();
+  </script>
+
+</body>
+
+</html>
