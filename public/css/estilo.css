@@ -190,11 +190,13 @@ body {
 
 
 .footer {
-  background-color: var(--ambar);
-  height: 150px;
+  background-color: var(--marrom);
+  border-top: 2px solid rgba(240, 169, 59, 0.35);
+  min-height: var(--tamanho-footer);
   color: var(--creme);
   display: flex;
   font-size: 15px;
+  align-items: center;
 }
 
 .footer .container {
@@ -221,19 +223,22 @@ body {
 .card {
   width: 50%;
   background-color: var(--creme);
-  border-radius: 10px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
   color: var(--marrom);
   flex-direction: column;
   height: fit-content;
-  padding: 20px 0;
+  padding: 30px 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
 }
 
 .card h2 {
-  margin: 0;
-  font-size: 30px;
+  font-family: var(--fonte-rua);
+  color: var(--ambar);
+  margin: 0 0 16px 0;
+  font-size: 2.2rem;
 }
 
 .formulario {
@@ -277,15 +282,25 @@ body {
   cursor: pointer;
   font-family: "Barlow", sans-serif;
   border: 0;
-  border-radius: 5px;
-  font-weight: 600;
-  font-size: 18px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 16px;
   color: var(--creme);
   background-color: var(--ambar);
-  width: 120px;
-  height: 30px;
+  padding: 10px 24px;
+  width: auto;
+  min-width: 140px;
+  height: auto;
   align-self: center;
   margin-top: 20px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.botao:hover {
+  background-color: var(--marrom);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
 }
 
 .loading-div {
