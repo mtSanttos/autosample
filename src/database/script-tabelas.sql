@@ -18,7 +18,7 @@ CREATE TABLE emocao (
   idEmocao INT NOT NULL AUTO_INCREMENT,
   nome VARCHAR(45) NOT NULL,
   PRIMARY KEY (idEmocao),
-  UNIQUE (nome)
+  CONSTRAINT chk_nome CHECK (nome IN ('amor', 'saudade', 'verdade', 'tristeza', 'alegria', 'realizacao', 'orgulho'))
 );
 
 CREATE TABLE poesia (
