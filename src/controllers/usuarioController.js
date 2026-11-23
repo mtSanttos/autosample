@@ -19,16 +19,16 @@ function autenticar(req, res) {
                     console.log(`Resultados: ${JSON.stringify(resultado)}`); // transforma JSON em String
 
                     if (resultado.length == 1) {
-                        console.log(resultado);
+                        console.log(resultado);                        
 
 
-
-                                    res.json({
+                                     res.json({
                                         id: resultado[0].id,
                                         email: resultado[0].email,
                                         nome: resultado[0].nome,
                                         perfil: resultado[0].perfil  
                                     });
+
                     } else if (resultado.length == 0) {
                         res.status(403).send("Email e/ou senha inválido(s)");
                     } else {
@@ -44,7 +44,7 @@ function autenticar(req, res) {
                 }
             );
     }
-
+    
 }
 
 function cadastrar(req, res) {
