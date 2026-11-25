@@ -86,60 +86,90 @@
       </div>
     </section>
 
-    <section class="capas" id="linha-do-tempo">
+    <section class="capas" id="linha-do-tempo" aria-labelledby="titulo-caminhada">
       <div class="container">
-        <h3>"E ter a caminhada escrita em letras de ouro"</h3>
+        <header class="titulo-secao">
+          <h2 id="titulo-caminhada">Minha caminhada</h2>
+          <p>“E ter a caminhada escrita em letras de ouro”</p>
+        </header>
 
         <div class="timeline-intercalada">
-          <div class="timeline-item esquerda">
-            <div class="timeline-ano">2015</div>
-            <div class="timeline-card">
-              <img class="capa-foto" src="./assets/imgs/capas-linha-do-tempo/IMG_4506.JPG.jpeg" alt="Capa do single Vai Mudar">
-              <div class="capa-arte">Vai Mudar</div>
-              <p class="capa-legenda">Primeiro single</p>
+          <article class="timeline-item esquerda">
+            <header class="capa-cabecalho">
+              <time class="timeline-ano" datetime="2015">2015</time>
+              <h3>Vai Mudar</h3>
+            </header>
+            <div class="moldura-foto capa-moldura">
+              <img src="./assets/imgs/capas-linha-do-tempo/IMG_4506.JPG.jpeg" alt="Capa do single Vai Mudar" loading="lazy">
             </div>
-          </div>
+            <p class="capa-legenda">Primeiro single</p>
+          </article>
 
-          <div class="timeline-item direita">
-            <div class="timeline-ano">2016</div>
-            <div class="timeline-card">
+          <article class="timeline-item direita">
+            <header class="capa-cabecalho">
+              <time class="timeline-ano" datetime="2016">2016</time>
+              <h3>Só resiste quem é</h3>
+            </header>
+            <div class="moldura-foto capa-moldura foto-reservada" aria-hidden="true"></div>
+            <p class="capa-legenda">Primeiro feat com grandes parceiros</p>
+          </article>
 
-              <div class="capa-arte">Só resiste quem é</div>
-              <p class="capa-legenda">Primeiro feat com grandes parceiros</p>
+          <article class="timeline-item esquerda">
+            <header class="capa-cabecalho">
+              <time class="timeline-ano" datetime="2018">2018</time>
+              <h3>Vai pra luta ou vai pra lona</h3>
+            </header>
+            <div class="moldura-foto capa-moldura foto-reservada" aria-hidden="true"></div>
+            <p class="capa-legenda">Momento político de enorme impacto</p>
+          </article>
+
+          <article class="timeline-item direita">
+            <header class="capa-cabecalho">
+              <time class="timeline-ano" datetime="2022">2022</time>
+              <h3>Jaco The north face</h3>
+            </header>
+            <div class="moldura-foto capa-moldura">
+              <img src="./assets/imgs/capas-linha-do-tempo/IMG_0008.JPG.jpeg" alt="Capa de Jaco The north face" loading="lazy">
             </div>
-          </div>
+            <p class="capa-legenda">Real TRAP don’t stop</p>
+          </article>
 
-          <div class="timeline-item esquerda">
-            <div class="timeline-ano">2018</div>
-            <div class="timeline-card">
-
-              <div class="capa-arte">Vai pra luta ou vai pra lona</div>
-              <p class="capa-legenda">Momento político de enorme impacto</p>
+          <article class="timeline-item esquerda">
+            <header class="capa-cabecalho">
+              <time class="timeline-ano" datetime="2025">2025</time>
+              <h3>Golden Era</h3>
+            </header>
+            <div class="moldura-foto capa-moldura">
+              <img src="./assets/imgs/capas-linha-do-tempo/img-10.jpg" alt="Capa de Golden Era" loading="lazy">
             </div>
-          </div>
-
-          <div class="timeline-item direita">
-            <div class="timeline-ano">2022</div>
-            <div class="timeline-card">
-              <img class="capa-foto" src="./assets/imgs/capas-linha-do-tempo/IMG_0008.JPG.jpeg" alt="Capa de Jaco The north face">
-              <div class="capa-arte">Jaco The north face</div>
-              <p class="capa-legenda">Real TRAP don’t stop</p>
-            </div>
-          </div>
-
-          <div class="timeline-item esquerda">
-            <div class="timeline-ano">2025</div>
-            <div class="timeline-card">
-              <img class="capa-foto" src="./assets/imgs/capas-linha-do-tempo/img-10.jpg" alt="Capa de Golden Era">
-              <div class="capa-arte">Golden Era</div>
-              <p class="capa-legenda">Ainda não lançada</p>
-            </div>
-          </div>
+            <p class="capa-legenda">Gravada, ainda não lançada</p>
+          </article>
         </div>
       </div>
     </section>
 
-
+    <section class="bastidores" aria-labelledby="titulo-bastidores">
+      <div class="container">
+        <header class="titulo-secao">
+          <h2 id="titulo-bastidores">Bastidores</h2>
+          <p>Quero reunir aqui o que fica por trás das faixas: os rascunhos, as sessões de gravação e a galera que fez parte da caminhada.</p>
+        </header>
+        <div class="galeria-bastidores">
+          <figure>
+            <div class="moldura-foto foto-reservada" aria-hidden="true"></div>
+            <figcaption>Caderno de rimas</figcaption>
+          </figure>
+          <figure>
+            <div class="moldura-foto foto-reservada" aria-hidden="true"></div>
+            <figcaption>Estúdio</figcaption>
+          </figure>
+          <figure>
+            <div class="moldura-foto foto-reservada" aria-hidden="true"></div>
+            <figcaption>Parcerias</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer class="footer">
