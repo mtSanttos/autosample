@@ -48,19 +48,14 @@ flowchart LR
     M --> DB[(MySQL)]
 ```
 
-### ✅ Já funciona
-- **Cadastro** com validação no front e no servidor, incluindo a força da senha, checada com um `for`
-- **Login** com redirecionamento por perfil: admin vai para a área admin, visitante para a home
-- **Home** com o disco de vinil girando 
-- **Painel** com dois gráficos (poesias por emoção e intensidade média) e três indicadores
-- **Banco** com 6 tabelas, chaves estrangeiras e dois relacionamentos N:M
+### O que dá para fazer
 
-### 🔜 Planejado
-- Cadastro de poesias e músicas pelo site
-- Humor do dia, para saber qual emoção mais se repete
-- Linha do tempo **Minha caminhada**
-- Curtir e comentar
-- Banco rodando em uma VM Linux
+- **Acervo público** com poesias, samples, Top 5 referências, Top 5 álbuns e faixas Old School.
+- **Admin** para cadastrar, editar e excluir itens do acervo e marcar várias emoções por obra.
+- **Meu Perfil** para editar ou excluir a própria conta e cadastrar, editar ou excluir o perfil musical.
+- **Dashboard** com dois gráficos (poesias por emoção e intensidade média) e três indicadores.
+
+O login cria uma sessão no servidor. O navegador usa um cookie para identificar a sessão, que dura até oito horas e termina se o servidor for reiniciado. O servidor confirma o perfil da conta antes de permitir alterações no acervo.
 
 ## 🛠️ Tecnologias
 
@@ -84,6 +79,8 @@ autosample/
 │   ├── login.html
 │   ├── cadastro.html
 │   ├── admin.html
+│   ├── acervo.html
+│   ├── perfil.html
 │   ├── dashboard/
 │   │   └── painel.html
 │   ├── css/           # estilo.css, painel.css, home.css
@@ -103,51 +100,57 @@ autosample/
 
 ## 🗄️ Banco de dados
 
-![DER do Autosample](.docs/.assets/DER-autosample.png)
+O esquema atual está em [script-tabelas.sql](src/database/script-tabelas.sql). O [DER original](.docs/.assets/DER-autosample.png) documenta o modelo inicial.
 
-| Tabela | O que guarda | Chaves |
-| ------ | ------------ | ------ |
-| `usuario` | Quem se cadastra: nome, e-mail, senha, proximidade, função e perfil | PK `id`; `email` único |
-| `poesia` | Título, texto e data de cada poesia | PK `idPoesia`; FK `fkUsuario` |
-| `musica` | Título, artista, link e data de cada música | PK `idMusica`; FK `fkUsuario` |
-| `emocao` | O catálogo de emoções | PK `idEmocao`; `nome` único |
-| `poesia_emocao` | Liga cada poesia às suas emoções, com a intensidade | PK composta (`fkPoesia`, `fkEmocao`) |
-| `musica_emocao` | Liga cada música às suas emoções, com a intensidade | PK composta (`fkMusica`, `fkEmocao`) |
+| Tabela | O que guarda |
+| ------ | ------------ |
+| `usuario` | Conta, e-mail único, senha em hash, proximidade, função e perfil de acesso |
+| `poesia` | Título, versos e autoria |
+| `musica` | Título, artista, link e autoria |
+| `emocao` | Sete emoções fixas com nomes únicos |
+| `poesia_emocao` | Vínculo de cada poesia com suas emoções e a intensidade de 1 a 5 |
+| `musica_emocao` | Vínculo de cada música com suas emoções e a intensidade de 1 a 5 |
+| `top_referencias` | Referências pessoais com posições únicas de 1 a 5 |
+| `top_albuns` | Álbuns de referência com posições únicas de 1 a 5 |
+| `old_school` | Faixas Old School, artista, ano e impacto |
+| `perfil_musical` | Bio, favoritos e rede social, com um perfil por conta |
 
-**Relacionamentos**
-- `usuario` 1:N `poesia`, e `usuario` 1:N `musica`
-- `poesia` N:M `emocao`, e `musica` N:M `emocao`, pelas tabelas associativas. A `intensidade` é um atributo **da relação**, e não de uma das pontas.
-
-O script de criação está em `src/database/script-tabelas.sql`, e o modelo editável (abre no Workbench) em `.docs/.assets/DER-Autosample.mwb`.
+Ao colocar várias emoções em uma obra, o HTML oferece os campos, o JavaScript reúne os valores em um vetor e envia um único `fetch`. O controller valida a lista. O model usa a mesma conexão para salvar a obra e seus vínculos em uma transação. Se uma etapa falhar, o MySQL desfaz a operação inteira.
 
 ## 🚀 Como rodar
 
-```bash
-git clone <url-do-repositorio>
-cd autosample
-npm install
-cp .env.example .env.dev   # preencha com os dados do seu banco
-npm run dev
+1. Instale as dependências com `npm install`.
+2. Copie `.env.example` para `.env.dev` e preencha os dados do MySQL local.
+3. Para um banco novo, crie e selecione o schema definido em `DB_DATABASE` no MySQL Workbench e execute [script-tabelas.sql](src/database/script-tabelas.sql).
+4. Se o banco já tem as dez tabelas, selecione o schema e execute [atualizar-crud.sql](src/database/atualizar-crud.sql). O script conserva os registros e avisa se houver nomes de emoção ou posições repetidas. Nessa situação, revise os registros apontados antes de rodar novamente.
+5. Inicie com `npm run dev` e abra `http://localhost:3333`.
+
+### Primeiro administrador local
+
+Crie sua conta pela tela de cadastro. No MySQL Workbench, com o schema selecionado, promova o e-mail que acabou de cadastrar.
+
+```sql
+UPDATE usuario SET perfil = 'admin' WHERE email = 'seu-email@exemplo.com';
 ```
 
-Antes de subir o servidor, crie o banco no MySQL, dê `USE` nele e rode `src/database/script-tabelas.sql` para criar as 6 tabelas.
+Entre pela tela de login para abrir o Admin.
 
 ## 🔗 Links
 
 | Documento | Link |
 | --------- | ---- |
-| Documentação | Em breve |
+| Documentação |  |
 | Diagrama do banco | [DER-autosample.png](.docs/.assets/DER-autosample.png) |
-| Protótipo das telas | Em breve |
-| Pesquisa e inovação | Em breve |
-| Gerenciador de tarefas | Em breve |
+| Protótipo das telas |  |
+| Pesquisa e inovação |  |
+| Gerenciador de tarefas |  |
 
 ## 📍 Status
 
 - [x] Ideia e nome definidos
 - [x] Banco de dados modelado
 - [x] API: cadastro e login
-- [ ] API: poesias, músicas e emoções
+- [x] CRUD do acervo e do perfil musical
 - [ ] Site
 - [ ] Pesquisa e documentação
 - [ ] Revisão final
