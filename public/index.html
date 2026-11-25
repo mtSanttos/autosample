@@ -1,153 +1,157 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Autosample | Início</title>
-
-  <script src="./js/sessao.js"></script>
-
+  <link rel="icon" type="image/png" href="./assets/imgs/simbolo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
-
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;800&family=Permanent+Marker&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./css/estilo.css">
   <link rel="stylesheet" href="./css/home.css">
-  <link rel="icon" type="image/png" href="./assets/imgs/simbolo.png">
-  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <script src="./js/sessao.js"></script>
 </head>
 
 <body>
-<div class="header">
+  <header class="header">
     <div class="container">
-      <h1 class="titulo">Autosample</h1>
-      <ul class="navbar">
-        <li class="agora">
-          <a href="index.html">Início</a>
-        </li>
-        <li>
-          <a href="acervo.html">Acervo</a>
-        </li>
-        <li>
-          <a href="dashboard/painel.html">Dashboard</a>
-        </li>
-        <li class="divisor-menu">|</li>
-        <li id="item_login"><a href="login.html">Entrar</a></li>
-        <li id="item_cadastro" class="btn-cadastro"><a href="cadastro.html">Criar conta</a></li>
-        <li id="item_usuario" style="display: none;">
-          <span id="nome_usuario"></span>
-          <a href="#" onclick="sair()">Sair</a>
-        </li>
-      </ul>
+      <a class="titulo" href="./index.html">Autosample</a>
+      <nav aria-label="Navegação principal">
+        <ul class="navbar">
+          <li><a href="./index.html" aria-current="page">Início</a></li>
+          <li><a href="./acervo.html">Acervo</a></li>
+          <li><a href="./dashboard/painel.html">Dashboard</a></li>
+          <li id="item_login" data-sessao="visitante"><a href="./login.html">Entrar</a></li>
+          <li id="item_cadastro" class="btn-cadastro" data-sessao="visitante"><a href="./cadastro.html">Criar conta</a></li>
+          <li data-sessao="usuario" hidden><a href="./perfil.html">Meu Perfil</a></li>
+          <li data-sessao="admin" hidden><a href="./admin.html">Admin</a></li>
+          <li id="item_usuario" class="menu-sessao" data-sessao="usuario" hidden>
+            <span id="nome_usuario"></span>
+            <a href="#" onclick="sair(); return false">Sair</a>
+          </li>
+        </ul>
+      </nav>
     </div>
-  </div>
+  </header>
 
-  <section class="hero-vinil">
-    <div class="container hero-conteudo">
-      <div class="hero-texto">
-        <p class="hero-assinatura">i s2 myLife</p>
-        <h2>Esse é o sample da minha própria vida.</h2>
-        <p>Escrevo rap desde os 17 anos. Aqui ficam as letras, o contexto de cada uma e o caminho até aqui.</p>
-        <div class="hero-acoes" id="hero_acoes">
-          <a class="botao" href="cadastro.html">Criar conta</a>
-          <a class="botao" href="login.html">Entrar</a>
+  <main>
+    <section class="hero-vinil">
+      <div class="container hero-conteudo">
+        <div class="hero-texto">
+          <span class="hero-assinatura">i s2 myLife</span>
+          <h1>Esse é o sample da minha própria vida.</h1>
+          <p>Escrevo rap desde os 17 anos. Aqui ficam as letras, o contexto de cada uma e o caminho até aqui.</p>
+          <div class="hero-acoes" id="hero_acoes">
+            <a class="botao" href="cadastro.html" data-sessao="visitante">Criar conta</a>
+            <a class="botao" href="login.html" data-sessao="visitante">Entrar</a>
+            <a class="botao" href="acervo.html" data-sessao="usuario" hidden>Explorar Acervo</a>
+          </div>
+        </div>
+        <div class="toca-discos">
+          <div class="vinil" aria-hidden="true">
+            <div class="vinil-rotulo">
+              <img src="./assets/imgs/simbolo.png" alt="">
+            </div>
+          </div>
+          <div class="agulha" aria-hidden="true"></div>
         </div>
       </div>
-      <div class="toca-discos">
-  <div class="vinil" aria-hidden="true">
-    <div class="vinil-rotulo">
-      <img src="./assets/imgs/simbolo.png" alt="">
-    </div>
-  </div>
-  <div class="agulha" aria-hidden="true"></div>
-</div>
-    </div>
-  </section>
+    </section>
 
-  <section class="como-funciona">
-    <div class="container">
-      <h3>Como o Autosample funciona</h3>
-      <div class="passos-grid">
-        <div class="passo-card">
-          <span class="passo-numero">01</span>
-          <h4>Registre letras e memórias</h4>
-          <p>Guarde suas composições, bastidores e momentos que moldaram sua caminhada.</p>
-        </div>
-        <div class="passo-card">
-          <span class="passo-numero">02</span>
-          <h4>Conecte a uma emoção</h4>
-          <p>Classifique cada registro conforme o sentimento daquele período da sua vida.</p>
-        </div>
-        <div class="passo-card">
-          <span class="passo-numero">03</span>
-          <h4>Acompanhe sua evolução</h4>
-          <p>Visualize sua trajetória no painel e explore o simulador do projeto.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="capas">
-    <div class="container">
-      <h3>"E ter a caminhada escrita em letras de ouro"</h3>
-
-      <div class="timeline-intercalada">
-        <div class="timeline-item esquerda">
-          <div class="timeline-ano">2015</div>
-          <div class="timeline-card">
-            <img class="capa-foto" src="./assets/imgs/capas-linha-do-tempo/IMG_4506.JPG.jpeg" alt="Capa do single Vai Mudar">
-            <div class="capa-arte">Vai Mudar</div>
-            <p class="capa-legenda">Primeiro single</p>
+    <section class="como-funciona">
+      <div class="container">
+        <h3>Como o Autosample funciona</h3>
+        <div class="passos-grid">
+          <div class="passo-card">
+            <h4>Registre letras e memórias</h4>
+            <p>Aqui guardo minhas composições e os bastidores de cada fase.</p>
           </div>
-        </div>
-
-        <div class="timeline-item direita">
-          <div class="timeline-ano">2016</div>
-          <div class="timeline-card">
-            <img class="capa-foto" src="./assets/imgs/capas/2016-so-resiste.jpg" alt="Capa de Só resiste quem é">
-            <div class="capa-arte">Só resiste quem é</div>
-            <p class="capa-legenda">Primeiro feat com grandes parceiros</p>
+          <div class="passo-card">
+            <h4>Conecte a uma emoção</h4>
+            <p>Marco as emoções de cada obra e a intensidade com que apareceram.</p>
           </div>
-        </div>
-
-        <div class="timeline-item esquerda">
-          <div class="timeline-ano">2018</div>
-          <div class="timeline-card">
-            <img class="capa-foto" src="./assets/imgs/capas/2018-luta-ou-lona.jpg" alt="Capa de Vai pra luta ou vai pra lona">
-            <div class="capa-arte">Vai pra luta ou vai pra lona</div>
-            <p class="capa-legenda">Momento político de enorme impacto</p>
-          </div>
-        </div>
-
-        <div class="timeline-item direita">
-          <div class="timeline-ano">2022</div>
-          <div class="timeline-card">
-            <img class="capa-foto" src="./assets/imgs/capas-linha-do-tempo/IMG_0008.JPG.jpeg" alt="Capa de Jaco The north face">
-            <div class="capa-arte">Jaco The north face</div>
-            <p class="capa-legenda">Real TRAP don’t stop</p>
-          </div>
-        </div>
-
-        <div class="timeline-item esquerda">
-          <div class="timeline-ano">2025</div>
-          <div class="timeline-card">
-            <img class="capa-foto" src="./assets/imgs/capas-linha-do-tempo/img-10.jpg" alt="Capa de Golden Era">
-            <div class="capa-arte">Golden Era</div>
-            <p class="capa-legenda">Ainda não lançada</p>
+          <div class="passo-card">
+            <h4>Acompanhe minha caminhada</h4>
+            <p>Veja as emoções que aparecem nas minhas poesias e explore o acervo.</p>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <div class="footer">
+    <section class="capas">
+      <div class="container">
+        <h3>"E ter a caminhada escrita em letras de ouro"</h3>
+
+        <div class="timeline-intercalada">
+          <div class="timeline-item esquerda">
+            <div class="timeline-ano">2015</div>
+            <div class="timeline-card">
+              <img class="capa-foto" src="./assets/imgs/capas-linha-do-tempo/IMG_4506.JPG.jpeg" alt="Capa do single Vai Mudar">
+              <div class="capa-arte">Vai Mudar</div>
+              <p class="capa-legenda">Primeiro single</p>
+            </div>
+          </div>
+
+          <div class="timeline-item direita">
+            <div class="timeline-ano">2016</div>
+            <div class="timeline-card">
+
+              <div class="capa-arte">Só resiste quem é</div>
+              <p class="capa-legenda">Primeiro feat com grandes parceiros</p>
+            </div>
+          </div>
+
+          <div class="timeline-item esquerda">
+            <div class="timeline-ano">2018</div>
+            <div class="timeline-card">
+
+              <div class="capa-arte">Vai pra luta ou vai pra lona</div>
+              <p class="capa-legenda">Momento político de enorme impacto</p>
+            </div>
+          </div>
+
+          <div class="timeline-item direita">
+            <div class="timeline-ano">2022</div>
+            <div class="timeline-card">
+              <img class="capa-foto" src="./assets/imgs/capas-linha-do-tempo/IMG_0008.JPG.jpeg" alt="Capa de Jaco The north face">
+              <div class="capa-arte">Jaco The north face</div>
+              <p class="capa-legenda">Real TRAP don’t stop</p>
+            </div>
+          </div>
+
+          <div class="timeline-item esquerda">
+            <div class="timeline-ano">2025</div>
+            <div class="timeline-card">
+              <img class="capa-foto" src="./assets/imgs/capas-linha-do-tempo/img-10.jpg" alt="Capa de Golden Era">
+              <div class="capa-arte">Golden Era</div>
+              <p class="capa-legenda">Ainda não lançada</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+  </main>
+
+  <footer class="footer">
     <div class="container">
-      <h4>Autosample &copy; 2026 • Feito por Matheus Santos &bull; <em>i &hearts; myLife</em></h4>
+      <p>Autosample &copy; 2026 · Feito por Matheus Santos <em>i s2 myLife</em></p>
     </div>
-  </div>
+  </footer>
 
+  <script>
+    function sair() {
+      limparSessao();
+    }
+
+    atualizarMenu().then(function (usuario) {
+      if (!usuario) return;
+      document.getElementById("nome_usuario").textContent = "Olá, " + usuario.nome;
+    }).catch(console.error);
+  </script>
 </body>
 
 </html>
