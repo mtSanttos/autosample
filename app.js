@@ -10,6 +10,7 @@ var path = require("node:path");
 var indexRouter = require("./src/routes/index");
 var usuarioRouter = require("./src/routes/usuarios");
 var dashboardRouter = require("./src/routes/dashboard");
+var acervoRouter = require("./src/routes/referencias");
 
 var porta = process.env.APP_PORT || 3333;
 var host = process.env.APP_HOST || "localhost";
@@ -22,6 +23,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/usuarios", usuarioRouter);
 app.use("/dashboard", dashboardRouter);
+app.use("/acervo", acervoRouter);
 
 app.use(function (erro, req, res, next) {
     if (res.headersSent) return next(erro);

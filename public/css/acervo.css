@@ -1,59 +1,13 @@
-.acervo-header {
-  background: rgba(59, 29, 15, 0.96);
-  border-bottom: 2px solid rgba(240, 169, 59, 0.35);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  backdrop-filter: blur(6px);
-  padding: 16px 0;
-}
-
-.acervo-header .container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 85%;
-  margin: auto;
-}
-
-.acervo-header h1 {
-  font-family: var(--fonte-rua);
-  color: var(--dourado);
-  margin: 0;
-  font-size: 1.8rem;
-}
-
-.acervo-nav {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.acervo-nav a {
-  text-decoration: none;
-  color: var(--creme);
-  font-weight: 600;
-  padding: 8px 14px;
-  border-radius: 6px;
-  font-size: 0.95rem;
-  transition: all 0.2s ease;
-}
-
-.acervo-nav a:hover,
-.acervo-nav a.ativo {
-  background-color: var(--ambar);
-  color: var(--creme);
-}
-
 .acervo-hero {
   text-align: center;
   padding: 40px 20px 20px;
   color: var(--creme);
 }
 
-.acervo-hero h2 {
+.acervo-hero h1 {
   font-family: var(--fonte-rua);
-  font-size: 2.5rem;
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  font-weight: 400;
   color: var(--dourado);
   margin: 0 0 10px 0;
 }
@@ -94,8 +48,7 @@
 }
 
 .acervo-container {
-  width: 85%;
-  max-width: 1200px;
+  width: min(92%, var(--largura-site));
   margin: 0 auto 60px;
 }
 
@@ -130,20 +83,16 @@
 
 .grade-obras {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
   gap: 24px;
 }
 
 /* Card Poesia */
 .card-obra {
-  background: var(--creme);
-  color: var(--marrom);
-  border-radius: 12px;
   padding: 24px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
   border-left: 6px solid var(--ambar);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
@@ -238,4 +187,40 @@
   background: rgba(255, 247, 237, 0.08);
   border-radius: 8px;
   border: 1px dashed rgba(240, 169, 59, 0.4);
+}
+
+.obra-topo,
+.obra-rodape {
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tags-emocoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.card-obra {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 620px) {
+  .acervo-filtros {
+    margin-bottom: 10px;
+  }
+
+  .secao-header-linha h3 {
+    font-size: 1.4rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-obra {
+    transition: none;
+  }
+
+  .card-obra:hover {
+    transform: none;
+  }
 }
