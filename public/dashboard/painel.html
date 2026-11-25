@@ -2,38 +2,47 @@
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Autosample | Dashboard de Emoções</title>
-    <link rel="icon" type="image/png" href="../assets/imgs/simbolo.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;800&family=Permanent+Marker&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/estilo.css">
-    <link rel="stylesheet" href="../css/painel.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="../js/sessao.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Autosample | Dashboard</title>
+  <link rel="icon" type="image/png" href="../assets/imgs/simbolo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;800&family=Permanent+Marker&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/estilo.css">
+  <link rel="stylesheet" href="../css/painel.css">
+  <script src="../js/sessao.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
-    <header class="painel-navegacao">
-        <div class="painel-navegacao-container">
-            <span class="logo-painel">Autosample</span>
-            <nav class="nav-links">
-                <a href="../index.html">🏠 Início</a>
-                <a href="./painel.html" class="ativo">📊 Dashboard</a>
-                <a href="../acervo.html">🎵 Acervo (Obras)</a>
-                <a href="../admin.html">⚙️ Admin</a>
-                <a href="#" onclick="limparSessao()" class="btn-sair">Sair</a>
-            </nav>
-        </div>
-    </header>
+  <header class="header">
+    <div class="container">
+      <a class="titulo" href="../index.html">Autosample</a>
+      <nav aria-label="Navegação principal">
+        <ul class="navbar">
+          <li><a href="../index.html">Início</a></li>
+          <li><a href="../acervo.html">Acervo</a></li>
+          <li><a href="../dashboard/painel.html" aria-current="page">Dashboard</a></li>
+          <li data-sessao="visitante"><a href="../login.html">Entrar</a></li>
+          <li class="btn-cadastro" data-sessao="visitante"><a href="../cadastro.html">Criar conta</a></li>
+          <li data-sessao="usuario" hidden><a href="../perfil.html">Meu Perfil</a></li>
+          <li data-sessao="admin" hidden><a href="../admin.html">Admin</a></li>
+          <li class="menu-sessao" data-sessao="usuario" hidden>
+            <a href="#" onclick="limparSessao(); return false">Sair</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
     <main class="painel">
         <header class="painel-topo">
             <h1>Emoções nas poesias</h1>
-            <p>Controle de métricas e indicadores de intensidade emocional</p>
+            <p>O que eu senti nas poesias que escrevi.</p>
         </header>
+
+        <p class="painel-status" id="statusPainel" role="status">Carregando dados…</p>
 
         <section class="painel-grade">
             <section class="indicadores">
@@ -61,22 +70,22 @@
         </section>
     </main>
 
+  <footer class="footer">
+    <div class="container">
+      <p>Autosample &copy; 2026 · Feito por Matheus Santos <em>i s2 myLife</em></p>
+    </div>
+  </footer>
+
     <script>
-        fetch("/dashboard/emocoes-poesia")
-            .then(function (resposta) {
-                return resposta.json();
-            })
+        atualizarMenu().catch(console.error);
+
+        var statusPainel = document.getElementById("statusPainel");
+
+        pedirDados("/dashboard/emocoes-poesia")
             .then(function (dados) {
-                var nomes = dados.map(function (item) {
-                    return item.nome;
-                });
-                var totais = dados.map(function (item) {
-                    return item.total;
-                });
-                var medias = dados.map(function (item) {
-                    return Number(item.media);
-                });
-                console.log(nomes, totais, medias);
+                var nomes = [];
+                var totais = [];
+                var medias = [];
 
                 var nomeFrequente = "—";
                 var maiorTotal = 0;
@@ -87,6 +96,9 @@
                 for (var i = 0; i < dados.length; i++) {
                     var total = Number(dados[i].total);
                     var media = Number(dados[i].media);
+                    nomes.push(dados[i].nome);
+                    totais.push(total);
+                    medias.push(media);
 
                     if (total > maiorTotal) {
                         maiorTotal = total;
@@ -101,9 +113,12 @@
                     }
                 }
 
-                document.getElementById("indFrequente").innerHTML = nomeFrequente;
-                document.getElementById("indIntensa").innerHTML = nomeIntensa;
-                document.getElementById("indQuantidade").innerHTML = comPoesia;
+                document.getElementById("indFrequente").textContent = nomeFrequente;
+                document.getElementById("indIntensa").textContent = nomeIntensa;
+                document.getElementById("indQuantidade").textContent = comPoesia;
+
+                Chart.defaults.font.family = "Barlow, sans-serif";
+                var movimentoReduzido = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
                 new Chart(document.getElementById("graficoEmocoes"), {
                     type: "bar",
@@ -116,6 +131,7 @@
                         }]
                     },
                     options: {
+                        animation: !movimentoReduzido,
                         plugins: {
                             legend: { display: false }
                         }
@@ -132,11 +148,15 @@
                         }]
                     },
                     options: {
+                        animation: !movimentoReduzido,
                         plugins: {
                             legend: { display: false }
                         }
                     }
                 });
+                statusPainel.textContent = dados.length ? "" : "Ainda não há poesias com emoções registradas.";
+            }).catch(function () {
+                statusPainel.textContent = "Não foi possível carregar os gráficos.";
             });
     </script>
 
