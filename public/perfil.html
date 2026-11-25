@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Autosample | Meu Perfil</title>
+  <link rel="icon" type="image/png" href="./assets/imgs/simbolo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;800&family=Permanent+Marker&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/estilo.css">
+  <link rel="stylesheet" href="./css/gestao.css">
+  <script src="./js/sessao.js"></script>
+  <script src="./js/perfil.js" defer></script>
+</head>
+
+<body>
+  <header class="header">
+    <div class="container">
+      <a class="titulo" href="./index.html">Autosample</a>
+      <nav aria-label="Navegação principal">
+        <ul class="navbar">
+          <li><a href="./index.html">Início</a></li>
+          <li><a href="./acervo.html">Acervo</a></li>
+          <li><a href="./dashboard/painel.html">Dashboard</a></li>
+          <li data-sessao="visitante"><a href="./login.html">Entrar</a></li>
+          <li class="btn-cadastro" data-sessao="visitante"><a href="./cadastro.html">Criar conta</a></li>
+          <li data-sessao="usuario" hidden><a href="./perfil.html" aria-current="page">Meu Perfil</a></li>
+          <li data-sessao="admin" hidden><a href="./admin.html" id="link_admin">Admin</a></li>
+          <li class="menu-sessao" data-sessao="usuario" hidden>
+            <button type="button" onclick="limparSessao()">Sair</button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <p class="status-pagina" id="perfil_inicio" role="status">Carregando seu perfil…</p>
+
+  <main class="admin-container" id="perfil_conteudo" hidden>
+    <div class="titulo-gestao">
+      <h1>Meu Perfil</h1>
+    </div>
+    <section class="card-admin">
+      <h2>Minha Conta</h2>
+      <form id="form_conta" onsubmit="salvarConta(event)">
+        <div class="form-grupo">
+          <label for="conta_nome">Nome</label>
+          <input id="conta_nome" type="text" maxlength="50" autocomplete="name" required>
+        </div>
+        <div class="form-grupo">
+          <label for="conta_email">E-mail</label>
+          <input id="conta_email" type="email" maxlength="100" autocomplete="email" required>
+        </div>
+        <div class="form-grupo">
+          <label for="conta_proximidade">Como você conhece o Matheus?</label>
+          <select id="conta_proximidade" required>
+            <option value="">Selecione</option>
+            <option value="amigo">Amigo</option>
+            <option value="familia">Família</option>
+            <option value="cena">Conheço da cena</option>
+            <option value="site">Conheci pelo site</option>
+            <option value="professor">Professor</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+        <div class="form-grupo">
+          <label for="conta_funcao">Qual sua função na música?</label>
+          <select id="conta_funcao" required>
+            <option value="">Selecione</option>
+            <option value="MC">MC</option>
+            <option value="beatmaker">Beatmaker</option>
+            <option value="DJ">DJ</option>
+            <option value="produtor">Produtor</option>
+            <option value="ouvinte">Ouvinte</option>
+          </select>
+        </div>
+        <div class="form-grupo">
+          <label for="conta_senha_atual">Senha atual para trocar a senha ou excluir a conta</label>
+          <input id="conta_senha_atual" type="password" maxlength="255" autocomplete="current-password">
+        </div>
+        <div class="form-grupo">
+          <label for="conta_senha_nova">Nova senha (opcional)</label>
+          <input id="conta_senha_nova" type="password" maxlength="255" autocomplete="new-password">
+        </div>
+        <div class="form-grupo">
+          <label for="conta_confirmacao">Confirme a nova senha</label>
+          <input id="conta_confirmacao" type="password" maxlength="255" autocomplete="new-password">
+        </div>
+        <div class="acoes-admin">
+          <button class="btn-cadastrar" id="conta_salvar" type="submit">Salvar Conta</button>
+          <button class="botao-secundario" id="conta_excluir" type="button" onclick="excluirConta()">Excluir Conta</button>
+        </div>
+        <p class="status-admin" id="conta_status" role="status"></p>
+      </form>
+    </section>
+
+    <section class="card-admin">
+      <h2>Meu Perfil Musical</h2>
+      <form id="form_musical" onsubmit="salvarPerfilMusical(event)">
+        <div class="form-grupo">
+          <label for="perfil_bio">Bio</label>
+          <textarea id="perfil_bio"></textarea>
+        </div>
+        <div class="form-grupo">
+          <label for="perfil_estilo">Estilo favorito</label>
+          <input id="perfil_estilo" type="text" maxlength="50">
+        </div>
+        <div class="form-grupo">
+          <label for="perfil_artista">Artista favorito</label>
+          <input id="perfil_artista" type="text" maxlength="100">
+        </div>
+        <div class="form-grupo">
+          <label for="perfil_link">Link da rede social</label>
+          <input id="perfil_link" type="url" maxlength="255">
+        </div>
+        <div class="acoes-admin">
+          <button class="btn-cadastrar" id="musical_salvar" type="submit">Criar Perfil Musical</button>
+          <button class="botao-secundario" id="musical_excluir" type="button" onclick="excluirPerfilMusical()" hidden>Excluir Perfil Musical</button>
+        </div>
+        <p class="status-admin" id="musical_status" role="status"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>Autosample &copy; 2026 · Feito por Matheus Santos <em>i s2 myLife</em></p>
+    </div>
+  </footer>
+</body>
+
+</html>
