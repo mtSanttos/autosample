@@ -1,46 +1,106 @@
-var database = require("../database/config")
+var database = require("../database/config");
 
-function autenticar(email, senha) {
-    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function entrar(): ", email, senha)
+function buscarPorEmail(email) {
     var instrucaoSql = `
-        SELECT id, nome, email, perfil FROM usuario WHERE email = '${email}' AND senha = '${senha}';
+        SELECT id, nome, email, senha, perfil FROM usuario WHERE email = ?;
     `;
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
+    return database.executar(instrucaoSql, [email]);
 }
 
-// Coloque os mesmos parâmetros aqui. Vá para a var instrucaoSql
-function cadastrar(nome, email, senha, proximidade, funcao) {
-    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", nome, email, senha, proximidade, funcao);
-
-    // Insira exatamente a query do banco aqui, lembrando da nomenclatura exata nos valores
-    //  e na ordem de inserção dos dados.
+function cadastrar(nome, email, hash, proximidade, funcao) {
     var instrucaoSql = `
-        INSERT INTO usuario (nome, email, senha, proximidade, funcao) VALUES ('${nome}', '${email}', '${senha}', '${proximidade}', '${funcao}');
+        INSERT INTO usuario (nome, email, senha, proximidade, funcao, perfil)
+        VALUES (?, ?, ?, ?, ?, 'visitante');
     `;
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
+    var valores = [nome, email, hash, proximidade, funcao];
+    return database.executar(instrucaoSql, valores);
+}
+
+async function buscarConta(id) {
+    var resultado = await database.executar(`
+        SELECT id, nome, email, proximidade, funcao, perfil FROM usuario WHERE id = ?;
+    `, [id]);
+    return resultado[0];
+}
+
+async function buscarSenha(id) {
+    var resultado = await database.executar("SELECT senha FROM usuario WHERE id = ?;", [id]);
+    return resultado[0]?.senha;
+}
+
+function atualizarSenha(id, senha, senhaAnterior) {
+    return database.executar("UPDATE usuario SET senha = ? WHERE id = ? AND BINARY senha = ?;", [senha, id, senhaAnterior]);
+}
+
+function atualizarConta(id, nome, email, proximidade, funcao, senha, senhaAnterior) {
+    if (senha) {
+        return database.executar(`
+            UPDATE usuario SET nome = ?, email = ?, proximidade = ?, funcao = ?, senha = ?
+            WHERE id = ? AND BINARY senha = ?;
+        `, [nome, email, proximidade, funcao, senha, id, senhaAnterior]);
+    }
+
+    return database.executar(`
+        UPDATE usuario SET nome = ?, email = ?, proximidade = ?, funcao = ? WHERE id = ?;
+    `, [nome, email, proximidade, funcao, id]);
+}
+
+function excluirConta(id, perfil, senha) {
+    return database.transacao(async function (conexao) {
+        if (perfil === "admin") {
+            var admins = await database.executar("SELECT id FROM usuario WHERE perfil = 'admin' FOR UPDATE;", [], conexao);
+            if (admins.length < 2) return "ultimoAdmin";
+        }
+
+        await database.executar("DELETE FROM perfil_musical WHERE fkUsuario = ?;", [id], conexao);
+        var resultado = await database.executar("DELETE FROM usuario WHERE id = ? AND BINARY senha = ?;", [id, senha], conexao);
+        if (!resultado.affectedRows) {
+            var erro = new Error("A senha ou a conta mudou. Entre novamente.");
+            erro.status = 409;
+            throw erro;
+        }
+        return "excluida";
+    });
+}
+
+async function buscarPerfil(id) {
+    var resultado = await database.executar(`
+        SELECT bio, estilo_favorito, artista_favorito, link_rede_social
+        FROM perfil_musical WHERE fkUsuario = ?;
+    `, [id]);
+    return resultado[0] || null;
+}
+
+function cadastrarPerfil(id, bio, estilo, artista, link) {
+    return database.executar(`
+        INSERT INTO perfil_musical (fkUsuario, bio, estilo_favorito, artista_favorito, link_rede_social)
+        VALUES (?, ?, ?, ?, ?);
+    `, [id, bio, estilo, artista, link]);
+}
+
+function atualizarPerfil(id, bio, estilo, artista, link) {
+    return database.executar(`
+        UPDATE perfil_musical SET bio = ?, estilo_favorito = ?, artista_favorito = ?, link_rede_social = ?
+        WHERE fkUsuario = ?;
+    `, [bio, estilo, artista, link, id]);
+}
+
+function excluirPerfil(id) {
+    return database.executar("DELETE FROM perfil_musical WHERE fkUsuario = ?;", [id]);
 }
 
 function contarPorFuncao() {
-    var instrucaoSql = `
-        SELECT funcao, COUNT(*) AS total FROM usuario WHERE perfil = 'visitante' GROUP BY funcao;
-    `;
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
+    return database.executar("SELECT funcao, COUNT(*) AS total FROM usuario WHERE perfil = 'visitante' GROUP BY funcao;");
 }
 
 function contarPorProximidade() {
-    var instrucaoSql = `
-        SELECT proximidade, COUNT(*) AS total FROM usuario WHERE perfil = 'visitante' AND proximidade IS NOT NULL GROUP BY proximidade;
-    `;
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
+    return database.executar(`
+        SELECT proximidade, COUNT(*) AS total FROM usuario
+        WHERE perfil = 'visitante' AND proximidade IS NOT NULL GROUP BY proximidade;
+    `);
 }
 
 module.exports = {
-    autenticar,
-    cadastrar,
-    contarPorFuncao,
-    contarPorProximidade
+    buscarPorEmail, cadastrar, buscarConta, buscarSenha, atualizarSenha, atualizarConta, excluirConta,
+    buscarPerfil, cadastrarPerfil, atualizarPerfil, excluirPerfil, contarPorFuncao, contarPorProximidade
 };

@@ -1,40 +1,32 @@
-var mysql = require("mysql2");
+var mysql = require("mysql2/promise");
 
-// CONEXÃO DO BANCO MYSQL SERVER
-var mySqlConfig = {
+var conexoes = mysql.createPool({
     host: process.env.DB_HOST,
     database: process.env.DB_DATABASE,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     port: process.env.DB_PORT
-};
+});
 
-// acrescentei o parametro valores que é uma lista array 
-function executar(instrucao, valores) {
-
-    if (process.env.AMBIENTE_PROCESSO !== "producao" && process.env.AMBIENTE_PROCESSO !== "desenvolvimento") {
-        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM .env OU dev.env OU app.js\n");
-        return Promise.reject("AMBIENTE NÃO CONFIGURADO EM .env");
-    }
-
-    return new Promise(function (resolve, reject) {
-        var conexao = mysql.createConnection(mySqlConfig);
-        conexao.connect();
-        //acrescentei a array valores como segundo argumento do query
-        conexao.query(instrucao, valores, function (erro, resultados) {
-            conexao.end();
-            if (erro) {
-                reject(erro);
-            }
-           
-            resolve(resultados);
-        });
-        conexao.on('error', function (erro) {
-            return ("ERRO NO MySQL SERVER: ", erro.sqlMessage);
-        });
-    });
+async function executar(instrucao, valores, conexao) {
+    var [resultados] = await (conexao || conexoes).execute(instrucao, valores);
+    return resultados;
 }
 
-module.exports = {
-    executar
-};
+async function transacao(operacao) {
+    var conexao = await conexoes.getConnection();
+
+    try {
+        await conexao.beginTransaction();
+        var resultado = await operacao(conexao);
+        await conexao.commit();
+        return resultado;
+    } catch (erro) {
+        await conexao.rollback();
+        throw erro;
+    } finally {
+        conexao.release();
+    }
+}
+
+module.exports = { executar, transacao };
