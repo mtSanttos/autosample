@@ -1,6 +1,7 @@
   .hero-vinil {
     background: radial-gradient(circle at 75% 50%, var(--ambar) 0, var(--marrom) 55%);
     padding: 60px 0;
+    overflow: clip;
   }
 
   .hero-conteudo {
@@ -160,6 +161,13 @@
 
   @keyframes agulha-desce {
     to { transform: rotate(15deg); }
+  }
+
+  @media (max-width: 900px) {
+    .agulha {
+      right: 11%;
+      height: min(35vw, 180px);
+    }
   }
 
 /* Apresentação do projeto e atalhos */
