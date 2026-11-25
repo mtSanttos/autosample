@@ -237,6 +237,20 @@
       </div>
       <button class="btn-cadastrar" onclick="cadastrarMusica()">Cadastrar Música</button>
     </section>
+
+    <section class="card-admin">
+      <h3>Cadastrar Top Referência (1 a 5)</h3>
+      <input id="ref_nome" type="text" placeholder="Nome do artista ou grupo">
+      <input id="ref_genero" type="text" placeholder="Gênero (ex: Rap Nacional, Boom Bap)">
+      <input id="ref_origem" type="text" placeholder="Origem (ex: Zona Sul SP / Anos 90)">
+      <textarea id="ref_impacto" placeholder="Por que é uma referência pessoal?"></textarea>
+      <input id="ref_link" type="text" placeholder="Link (YouTube / Spotify)">
+      <input id="ref_posicao" type="number" min="1" max="5" placeholder="Posição no Top (1 a 5)">
+
+      <button class="botao" onclick="cadastrarReferencia()">Salvar Referência</button>
+      
+    </section>
+
   </main>
 
   <script>
@@ -308,6 +322,45 @@
 
 
 
+    }
+
+    function cadastrarReferencia() {
+      var nomeVar = ref_nome.value;
+      var generoVar = ref_genero.value;
+      var origemVar = ref_origem.value;
+      var impactoVar = ref_impacto.value;
+      var linkVar = ref_link.value;
+      var posicaoVar = ref_posicao.value;
+      var idUsuarioVar = sessionStorage.ID_USUARIO;
+
+      if (nomeVar == "" || generoVar == "" || impactoVar == "" || posicaoVar == "") {
+        alert("Preencha nome, gênero, impacto e posição (1 a 5).");
+        return;
+      }
+
+      fetch("/acervo/referencias", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          nomeServer: nomeVar,
+          generoServer: generoVar,
+          origemServer: origemVar,
+          impactoServer: impactoVar,
+          linkServer: linkVar,
+          posicaoServer: posicaoVar,
+          idUsuarioServer: idUsuarioVar
+        })
+      }).then(function (resposta) {
+        if (resposta.ok) {
+          alert("Referência cadastrada com sucesso!");
+        } else {
+          resposta.text().then(texto => alert("Erro: " + texto));
+        }
+      }).catch(function (erro) {
+        console.error("Erro na requisição:", erro);
+      });
     }
 
 
