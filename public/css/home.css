@@ -1,4 +1,4 @@
-  .hero-vinil {
+.hero-vinil {
     background: radial-gradient(circle at 75% 50%, var(--ambar) 0, var(--marrom) 55%);
     padding: 60px 0;
   }
@@ -235,56 +235,74 @@
 }
 
 
+/* Apresentação do projeto e atalhos */
 .como-funciona {
+  padding: clamp(36px, 6vw, 64px) 0;
   background: var(--marrom);
-  color: var(--creme);
-  padding: 64px 0;
-  border-top: 2px solid rgba(240, 169, 59, 0.25);
-  border-bottom: 2px solid rgba(240, 169, 59, 0.25);
+  border-top: 2px solid var(--borda-dourada);
 }
 
 .como-funciona .container {
   flex-direction: column;
-  align-items: center;
-  gap: 28px;
+  gap: 20px;
 }
 
-.como-funciona h3 {
-  font-family: var(--fonte-rua);
-  font-size: clamp(1.6rem, 3vw, 2.2rem);
-  font-weight: 400;
-  color: var(--creme);
+.sobre-autosample {
+  display: grid;
+  grid-template-columns: minmax(190px, 1fr) minmax(0, 2fr);
+  align-items: start;
+  gap: 12px 28px;
+}
+
+.sobre-autosample h2 {
   margin: 0;
-  text-align: center;
+  color: var(--dourado);
+  font-family: var(--fonte-rua);
+  font-size: clamp(1.65rem, 3.5vw, 2.4rem);
+  font-weight: 400;
+}
+
+.sobre-autosample p {
+  max-width: 62ch;
+  margin: 0;
+  color: var(--creme);
+  line-height: 1.55;
+}
+
+.sobre-autosample p + p {
+  margin-top: 8px;
 }
 
 .passos-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
-  width: 100%;
-  max-width: 960px;
+  gap: 14px;
 }
 
 .passo-card {
-  background: rgba(255, 247, 237, 0.06);
-  border: 1px solid rgba(240, 169, 59, 0.35);
-  border-radius: 10px;
-  padding: 20px;
+  display: grid;
+  gap: 5px;
+  padding: 14px 16px;
+  border: 1px solid var(--borda-dourada);
+  border-radius: 8px;
+  color: var(--creme);
+  background: rgba(255, 247, 237, .06);
+  text-decoration: none;
 }
 
-.passo-card h4 {
-  margin: 0 0 8px;
-  font-size: 1.1rem;
-  color: var(--creme);
+.passo-card strong {
+  color: var(--dourado);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
-.passo-card p {
-  margin: 0;
-  font-size: 0.95rem;
-  line-height: 1.5;
-  color: var(--creme);
-  opacity: 0.92;
+.passo-card:hover,
+.passo-card:focus-visible {
+  background: rgba(255, 247, 237, .12);
+}
+
+.passo-card span {
+  line-height: 1.4;
 }
 
 @media (max-width: 768px) {
@@ -295,6 +313,7 @@
     width: 44px;
   }
 
+  .sobre-autosample,
   .passos-grid {
     grid-template-columns: 1fr;
   }
