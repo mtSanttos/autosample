@@ -1,376 +1,240 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Autosample | Painel do Admin</title>
-  <script src="./js/sessao.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Autosample | Admin</title>
   <link rel="icon" type="image/png" href="./assets/imgs/simbolo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;800&family=Permanent+Marker&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./css/estilo.css">
-  <link rel="stylesheet" href="./css/painel.css">
-  <style>
-    body {
-      background-color: var(--marrom);
-      color: var(--creme);
-      font-family: 'Barlow', sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-
-    .admin-header {
-      background: linear-gradient(135deg, var(--marrom), var(--ambar));
-      border-bottom: 2px solid var(--ambar);
-      padding: 20px 0;
-    }
-
-    .admin-header .container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 80%;
-      margin: auto;
-      gap: 20px;
-    }
-
-    .admin-nav {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .admin-nav a {
-      color: var(--creme);
-      text-decoration: none;
-      font-weight: 600;
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-size: 0.95rem;
-      border: 1px solid rgba(240, 169, 59, 0.4);
-      transition: all 0.2s ease;
-    }
-
-    .admin-nav a:hover,
-    .admin-nav a.ativo {
-      background-color: var(--dourado);
-      color: var(--marrom);
-      border-color: var(--dourado);
-    }
-
-    .admin-header h1 {
-      font-family: 'Permanent Marker', cursive;
-      color: var(--dourado);
-      margin: 0;
-      font-size: 2rem;
-    }
-
-    .admin-header button {
-      background-color: var(--ambar);
-      color: var(--creme);
-      border: 2px solid var(--dourado);
-      padding: 8px 16px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .admin-container {
-      width: 80%;
-      margin: 40px auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 30px;
-    }
-
-    @media (max-width: 900px) {
-      .admin-container {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .card-admin {
-      background-color: var(--creme);
-      color: var(--marrom);
-      border-radius: 10px;
-      padding: 30px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-    }
-
-    .card-admin h2 {
-      font-family: 'Permanent Marker', cursive;
-      color: var(--ambar);
-      margin-top: 0;
-      font-size: 1.5rem;
-    }
-
-    .form-grupo {
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 16px;
-    }
-
-    .form-grupo label {
-      font-weight: bold;
-      margin-bottom: 6px;
-      font-size: 0.95rem;
-    }
-
-    .form-grupo input,
-    .form-grupo textarea,
-    .form-grupo select {
-      padding: 10px;
-      border: 2px solid var(--ambar);
-      border-radius: 6px;
-      font-size: 1rem;
-      background-color: #fff;
-      color: var(--marrom);
-    }
-
-    .form-grupo textarea {
-      resize: vertical;
-      height: 90px;
-    }
-
-    .btn-cadastrar {
-      background-color: var(--ambar);
-      color: var(--creme);
-      border: none;
-      padding: 12px;
-      width: 100%;
-      border-radius: 6px;
-      font-size: 1.1rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .btn-cadastrar:hover {
-      background-color: var(--marrom);
-    }
-  </style>
+  <link rel="stylesheet" href="./css/gestao.css">
+  <script src="./js/sessao.js"></script>
+  <script src="./js/admin.js" defer></script>
 </head>
 
-<body onload="validarAdmin()">
-
-  <header class="admin-header">
+<body onload="validarAdmin().then(carregarAdmin).catch(mostrarErroAdmin)">
+  <header class="header">
     <div class="container">
-      <h1>Autosample | Admin</h1>
-      <nav class="admin-nav">
-        <a href="./index.html">🏠 Início</a>
-        <a href="./admin.html" class="ativo">⚙️ Cadastro</a>
-        <a href="./dashboard/painel.html">📊 Dashboard</a>
-        <a href="./acervo.html">🎵 Acervo (Poesias & Músicas)</a>
+      <a class="titulo" href="./index.html">Autosample</a>
+      <nav aria-label="Navegação principal">
+        <ul class="navbar">
+          <li><a href="./index.html">Início</a></li>
+          <li><a href="./acervo.html">Acervo</a></li>
+          <li><a href="./dashboard/painel.html">Dashboard</a></li>
+          <li data-sessao="visitante"><a href="./login.html">Entrar</a></li>
+          <li class="btn-cadastro" data-sessao="visitante"><a href="./cadastro.html">Criar conta</a></li>
+          <li data-sessao="usuario" hidden><a href="./perfil.html">Meu Perfil</a></li>
+          <li data-sessao="admin" hidden><a href="./admin.html" aria-current="page">Admin</a></li>
+          <li class="menu-sessao" data-sessao="usuario" hidden>
+            <span>Olá, <strong id="nome_admin"></strong></span>
+            <button type="button" onclick="limparSessao()">Sair</button>
+          </li>
+        </ul>
       </nav>
-      <div>
-        <span>Bem-vindo, <strong id="nome_admin"></strong></span>
-        <button onclick="limparSessao()">Sair</button>
-      </div>
     </div>
   </header>
 
-  <main class="admin-container">
-    <!-- Formulário de Poesia -->
-    <section class="card-admin">
-      <h2>Cadastrar Poesia</h2>
-      <div class="form-grupo">
-        <label for="titulo_poesia">Título da Poesia:</label>
-        <input type="text" id="titulo_poesia" placeholder="Ex: Golden Era">
-      </div>
-      <div class="form-grupo">
-        <label for="texto_poesia">Texto / Versos:</label>
-        <textarea id="texto_poesia" placeholder="Escreva os versos aqui..."></textarea>
-      </div>
-      <div class="form-grupo">
-        <label for="emocao_poesia">Emoção Principal:</label>
-        <select id="emocao_poesia">
-          <option value="">Selecione a emoção</option>
-          <option value="amor">Amor</option>
-          <option value="saudade">Saudade</option>
-          <option value="verdade">Verdade</option>
-          <option value="tristeza">Tristeza</option>
-          <option value="alegria">Alegria</option>
-          <option value="realizacao">Realização</option>
-          <option value="orgulho">Orgulho</option>
-        </select>
-      </div>
-      <div class="form-grupo">
-        <label for="intensidade_poesia">Intensidade (1 a 5):</label>
-        <input type="number" id="intensidade_poesia" min="1" max="5" value="3">
-      </div>
-      <button class="btn-cadastrar" onclick="cadastrarPoesia()">Cadastrar Poesia</button>
-    </section>
+  <p class="status-pagina" id="admin_inicio" role="status">Conferindo sessão…</p>
 
-
+  <main class="admin-container" id="admin_conteudo" hidden>
+    <div class="titulo-gestao">
+      <h1>Admin do Acervo</h1>
+    </div>
     <section class="card-admin">
-      <h2>Cadastrar Música (Sample)</h2>
-      <div class="form-grupo">
-        <label for="titulo_musica">Título da Música:</label>
-        <input type="text" id="titulo_musica" placeholder="Ex: My Life" required>
-      </div>
-      <div class="form-grupo">
-        <label for="artista_musica">Artista / Produtor:</label>
-        <input type="text" id="artista_musica" placeholder="Ex: Roy Ayers">
-      </div>
-      <div class="form-grupo">
-        <label for="link_musica">Link (YouTube / Spotify):</label>
-        <input type="text" id="link_musica" placeholder="https://...">
-      </div>
-      <div class="form-grupo">
-        <label for="emocao_musica">Emoção Principal:</label>
-        <select id="emocao_musica">
-          <option value="">Selecione a emoção</option>
-          <option value="amor">Amor</option>
-          <option value="saudade">Saudade</option>
-          <option value="verdade">Verdade</option>
-          <option value="tristeza">Tristeza</option>
-          <option value="alegria">Alegria</option>
-          <option value="realizacao">Realização</option>
-          <option value="orgulho">Orgulho</option>
-        </select>
-      </div>
-      <div class="form-grupo">
-        <label for="intensidade_musica">Intensidade (1 a 5):</label>
-        <input type="number" id="intensidade_musica" min="1" max="5" value="3">
-      </div>
-      <button class="btn-cadastrar" onclick="cadastrarMusica()">Cadastrar Música</button>
+      <h2>Poesias</h2>
+      <form id="form_poesia" onsubmit="return cadastrarPoesia()">
+        <div class="form-grupo">
+          <label for="titulo_poesia">Título da poesia</label>
+          <input type="text" id="titulo_poesia" maxlength="100" required>
+        </div>
+        <div class="form-grupo">
+          <label for="texto_poesia">Versos</label>
+          <textarea id="texto_poesia" required></textarea>
+        </div>
+        <fieldset class="form-grupo grupo-emocoes">
+          <legend>Emoções</legend>
+          <div class="linha-emocao">
+            <div>
+              <label for="emocao_poesia">Emoção</label>
+              <select id="emocao_poesia"><option value="">Selecione a emoção</option></select>
+            </div>
+            <div>
+              <label for="intensidade_poesia">Intensidade (1 a 5)</label>
+              <input type="number" id="intensidade_poesia" min="1" max="5" value="3">
+            </div>
+          </div>
+          <div id="emocoes_extras_poesia"></div>
+          <button class="botao-secundario" type="button" onclick="adicionarEmocao('poesia')">Adicionar emoção</button>
+        </fieldset>
+        <div class="acoes-admin">
+          <button class="btn-cadastrar" id="salvar_poesia" type="submit" onclick="return cadastrarPoesia()">Cadastrar Poesia</button>
+          <button class="botao-secundario" id="cancelar_poesia" type="button" onclick="limparFormulario('poesia'); mostrarStatus('poesia', '')" hidden>Cancelar edição</button>
+        </div>
+        <p class="status-admin" id="status_poesia" role="status"></p>
+      </form>
+      <div class="lista-admin" id="lista_poesia" aria-label="Registros de poesias"></div>
     </section>
 
     <section class="card-admin">
-      <h3>Cadastrar Top Referência (1 a 5)</h3>
-      <input id="ref_nome" type="text" placeholder="Nome do artista ou grupo">
-      <input id="ref_genero" type="text" placeholder="Gênero (ex: Rap Nacional, Boom Bap)">
-      <input id="ref_origem" type="text" placeholder="Origem (ex: Zona Sul SP / Anos 90)">
-      <textarea id="ref_impacto" placeholder="Por que é uma referência pessoal?"></textarea>
-      <input id="ref_link" type="text" placeholder="Link (YouTube / Spotify)">
-      <input id="ref_posicao" type="number" min="1" max="5" placeholder="Posição no Top (1 a 5)">
-
-      <button class="botao" onclick="cadastrarReferencia()">Salvar Referência</button>
-      
+      <h2>Músicas (Samples)</h2>
+      <form id="form_musica" onsubmit="return cadastrarMusica()">
+        <div class="form-grupo">
+          <label for="titulo_musica">Título da música</label>
+          <input type="text" id="titulo_musica" maxlength="100" required>
+        </div>
+        <div class="form-grupo">
+          <label for="artista_musica">Artista ou produtor</label>
+          <input type="text" id="artista_musica" maxlength="100" required>
+        </div>
+        <div class="form-grupo">
+          <label for="link_musica">Link da música</label>
+          <input type="url" id="link_musica" maxlength="255">
+        </div>
+        <fieldset class="form-grupo grupo-emocoes">
+          <legend>Emoções</legend>
+          <div class="linha-emocao">
+            <div>
+              <label for="emocao_musica">Emoção</label>
+              <select id="emocao_musica"><option value="">Selecione a emoção</option></select>
+            </div>
+            <div>
+              <label for="intensidade_musica">Intensidade (1 a 5)</label>
+              <input type="number" id="intensidade_musica" min="1" max="5" value="3">
+            </div>
+          </div>
+          <div id="emocoes_extras_musica"></div>
+          <button class="botao-secundario" type="button" onclick="adicionarEmocao('musica')">Adicionar emoção</button>
+        </fieldset>
+        <div class="acoes-admin">
+          <button class="btn-cadastrar" id="salvar_musica" type="submit" onclick="return cadastrarMusica()">Cadastrar Música</button>
+          <button class="botao-secundario" id="cancelar_musica" type="button" onclick="limparFormulario('musica'); mostrarStatus('musica', '')" hidden>Cancelar edição</button>
+        </div>
+        <p class="status-admin" id="status_musica" role="status"></p>
+      </form>
+      <div class="lista-admin" id="lista_musica" aria-label="Registros de músicas (samples)"></div>
     </section>
 
+    <section class="card-admin">
+      <h2>Top 5 Referências</h2>
+      <form id="form_referencia" onsubmit="return cadastrarReferencia()">
+        <div class="form-grupo">
+          <label for="ref_nome">Nome do artista ou grupo</label>
+          <input type="text" id="ref_nome" maxlength="100" required>
+        </div>
+        <div class="form-grupo">
+          <label for="ref_genero">Gênero</label>
+          <input type="text" id="ref_genero" maxlength="100" required>
+        </div>
+        <div class="form-grupo">
+          <label for="ref_origem">Origem</label>
+          <input type="text" id="ref_origem" maxlength="100">
+        </div>
+        <div class="form-grupo">
+          <label for="ref_impacto">Por que é uma referência pessoal?</label>
+          <textarea id="ref_impacto" required></textarea>
+        </div>
+        <div class="form-grupo">
+          <label for="ref_link">Link da referência</label>
+          <input type="url" id="ref_link" maxlength="255">
+        </div>
+        <div class="form-grupo">
+          <label for="ref_posicao">Posição (1 a 5)</label>
+          <input type="number" id="ref_posicao" min="1" max="5" required>
+        </div>
+        <div class="acoes-admin">
+          <button class="btn-cadastrar" id="salvar_referencia" type="submit" onclick="return cadastrarReferencia()">Salvar Referência</button>
+          <button class="botao-secundario" id="cancelar_referencia" type="button" onclick="limparFormulario('referencia'); mostrarStatus('referencia', '')" hidden>Cancelar edição</button>
+        </div>
+        <p class="status-admin" id="status_referencia" role="status"></p>
+      </form>
+      <div class="lista-admin" id="lista_referencia" aria-label="Registros de top 5 referências"></div>
+    </section>
+
+    <section class="card-admin">
+      <h2>Top 5 Álbuns</h2>
+      <form id="form_album" onsubmit="event.preventDefault(); salvarCadastro('album')">
+        <div class="form-grupo">
+          <label for="album_titulo">Título do álbum</label>
+          <input type="text" id="album_titulo" maxlength="100" required>
+        </div>
+        <div class="form-grupo">
+          <label for="album_artista">Artista</label>
+          <input type="text" id="album_artista" maxlength="100" required>
+        </div>
+        <div class="form-grupo">
+          <label for="album_genero">Gênero</label>
+          <input type="text" id="album_genero" maxlength="100" required>
+        </div>
+        <div class="form-grupo">
+          <label for="album_ano">Ano</label>
+          <input type="number" id="album_ano" min="1" max="9999">
+        </div>
+        <div class="form-grupo">
+          <label for="album_faixa">Faixa destaque</label>
+          <input type="text" id="album_faixa" maxlength="100">
+        </div>
+        <div class="form-grupo">
+          <label for="album_impacto">Como esse disco marcou sua vida?</label>
+          <textarea id="album_impacto" required></textarea>
+        </div>
+        <div class="form-grupo">
+          <label for="album_link">Link do álbum</label>
+          <input type="url" id="album_link" maxlength="255">
+        </div>
+        <div class="form-grupo">
+          <label for="album_posicao">Posição (1 a 5)</label>
+          <input type="number" id="album_posicao" min="1" max="5" required>
+        </div>
+        <div class="acoes-admin">
+          <button class="btn-cadastrar" id="salvar_album" type="submit">Cadastrar Álbum</button>
+          <button class="botao-secundario" id="cancelar_album" type="button" onclick="limparFormulario('album'); mostrarStatus('album', '')" hidden>Cancelar edição</button>
+        </div>
+        <p class="status-admin" id="status_album" role="status"></p>
+      </form>
+      <div class="lista-admin" id="lista_album" aria-label="Registros de top 5 álbuns"></div>
+    </section>
+
+    <section class="card-admin">
+      <h2>Old School</h2>
+      <form id="form_old_school" onsubmit="event.preventDefault(); salvarCadastro('old_school')">
+        <div class="form-grupo">
+          <label for="old_titulo">Título da faixa</label>
+          <input type="text" id="old_titulo" maxlength="100" required>
+        </div>
+        <div class="form-grupo">
+          <label for="old_artista">Artista</label>
+          <input type="text" id="old_artista" maxlength="100" required>
+        </div>
+        <div class="form-grupo">
+          <label for="old_ano">Ano</label>
+          <input type="number" id="old_ano" min="1" max="9999">
+        </div>
+        <div class="form-grupo">
+          <label for="old_impacto">O que essa faixa representa?</label>
+          <textarea id="old_impacto"></textarea>
+        </div>
+        <div class="form-grupo">
+          <label for="old_link">Link da faixa</label>
+          <input type="url" id="old_link" maxlength="255">
+        </div>
+        <div class="acoes-admin">
+          <button class="btn-cadastrar" id="salvar_old_school" type="submit">Cadastrar Faixa</button>
+          <button class="botao-secundario" id="cancelar_old_school" type="button" onclick="limparFormulario('old_school'); mostrarStatus('old_school', '')" hidden>Cancelar edição</button>
+        </div>
+        <p class="status-admin" id="status_old_school" role="status"></p>
+      </form>
+      <div class="lista-admin" id="lista_old_school" aria-label="Registros de old school"></div>
+    </section>
   </main>
 
-  <script>
-
-    nome_admin.innerHTML = sessionStorage.NOME_USUARIO;
-
-    function cadastrarPoesia() {
-      let tituloPoesia = document.getElementById("titulo_poesia").value;
-      let textoPoesia = document.getElementById("texto_poesia").value;
-      let emocaoPoesia = document.getElementById("emocao_poesia").value;
-      let intensidadePoesia = document.getElementById("intensidade_poesia").value;
-
-      if (tituloPoesia == "" || textoPoesia == "" || emocaoPoesia == "") {
-        alert("Por favor, preencha todos os campos da poesia!");
-        return false;
-      }
-
-      fetch("/dashboard/cadastrar-poesia", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          titulo: tituloPoesia,
-          texto: textoPoesia,
-          emocao: emocaoPoesia,
-          intensidade: intensidadePoesia,
-          usuario_id: sessionStorage.getItem("ID_USUARIO")
-        })
-      }).then(function (resposta) {
-        if (resposta.ok) {
-          alert("Poesia cadastrada com sucesso!");
-          location.reload();
-        } else {
-          alert("Erro ao cadastrar poesia!");
-        }
-      }).catch(function (error) {
-        alert(error);
-      });
-    }
-
-    function cadastrarMusica() {
-      let tituloMusica = document.getElementById("titulo_musica").value;
-      let artistaMusica = document.getElementById("artista_musica").value
-      let linkMusica = document.getElementById("link_musica").value
-      let emocaoMusica = document.getElementById("emocao_musica").value
-      let intensidadeMusica = document.getElementById("intensidade_musica").value
-
-      fetch("/dashboard/cadastrar-musica", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          titulo: tituloMusica,
-          artista: artistaMusica,
-          link: linkMusica,
-          emocao: emocaoMusica,
-          intensidade: intensidadeMusica,
-          usuario_id: sessionStorage.getItem("ID_USUARIO")
-        })
-      }).then(function (resposta) {
-        alert("Cadastrado com sucesso")
-        location.reload();
-      }).catch(function (error) {
-        alert(error);
-      })
-
-
-
-
-    }
-
-    function cadastrarReferencia() {
-      var nomeVar = ref_nome.value;
-      var generoVar = ref_genero.value;
-      var origemVar = ref_origem.value;
-      var impactoVar = ref_impacto.value;
-      var linkVar = ref_link.value;
-      var posicaoVar = ref_posicao.value;
-      var idUsuarioVar = sessionStorage.ID_USUARIO;
-
-      if (nomeVar == "" || generoVar == "" || impactoVar == "" || posicaoVar == "") {
-        alert("Preencha nome, gênero, impacto e posição (1 a 5).");
-        return;
-      }
-
-      fetch("/acervo/referencias", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          nomeServer: nomeVar,
-          generoServer: generoVar,
-          origemServer: origemVar,
-          impactoServer: impactoVar,
-          linkServer: linkVar,
-          posicaoServer: posicaoVar,
-          idUsuarioServer: idUsuarioVar
-        })
-      }).then(function (resposta) {
-        if (resposta.ok) {
-          alert("Referência cadastrada com sucesso!");
-        } else {
-          resposta.text().then(texto => alert("Erro: " + texto));
-        }
-      }).catch(function (erro) {
-        console.error("Erro na requisição:", erro);
-      });
-    }
-
-
-
-
-
-
-
-
-  </script>
+  <footer class="footer">
+    <div class="container">
+      <p>Autosample &copy; 2026 · Feito por Matheus Santos <em>i s2 myLife</em></p>
+    </div>
+  </footer>
 </body>
 
 </html>

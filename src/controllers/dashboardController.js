@@ -1,88 +1,95 @@
 var dashboardModel = require("../models/dashboardModel");
+var validacao = require("../validacao");
 
-function buscarEmocoesPoesia(req, res) {
-    dashboardModel.buscarEmocoesPoesia()
-        .then(function (resultado) {
-            res.status(200).json(resultado);
-        })
-        .catch(function (erro) {
-            console.log("Erro ao buscar emoções:", erro.sqlMessage);
-            res.status(500).json("Erro ao buscar os dados do painel.");
-        });
+var camposPoesia = [
+    ["titulo", "título", 100, true],
+    ["texto", "texto", "texto longo", true]
+];
+var camposMusica = [
+    ["titulo", "título", 100, true],
+    ["artista", "artista", 100, true],
+    ["link", "link", "link", false]
+];
+
+async function buscarEmocoesPoesia(req, res) {
+    res.json(await dashboardModel.buscarEmocoesPoesia());
 }
 
-function cadastrarMusica(req, res) {
-    
-    let titulo = req.body.titulo;
-    let artista = req.body.artista;
-    let link = req.body.link;
-    let emocao = req.body.emocao;
-    let intensidade = req.body.intensidade;
-    let usuario = req.body.usuario_id;
-
-
-    dashboardModel.inserirMusica(titulo, artista, link, emocao, intensidade, usuario).then(function (resultado) {
-       res.status(200).json("Musica cadastrada com sucesso")
-    }).catch(function (erro) {
-        res.status(500).json("Erro ao cadastrar música")
-    });
+async function listarEmocoes(req, res) {
+    res.json(await dashboardModel.listarEmocoes());
 }
 
+async function listarPoesias(req, res) {
+    res.json(await dashboardModel.listarObras("poesia"));
+}
 
+async function listarMusicas(req, res) {
+    res.json(await dashboardModel.listarObras("musica"));
+}
 
-function cadastrarPoesia(req, res) {
-    let titulo = req.body.titulo;
-    let texto = req.body.texto;
-    let emocao = req.body.emocao;
-    let intensidade = req.body.intensidade;
-    let usuario = req.body.usuario_id;
+function lerEmocoes(corpo) {
+    // Os cadastros antigos enviavam só uma emoção fora do vetor.
+    var lista = corpo.emocoes;
+    if (lista === undefined) lista = [{ nome: corpo.emocao, intensidade: corpo.intensidade }];
 
-    if (titulo == undefined || titulo == "") {
-        res.status(400).send("Informe o título da poesia.");
-    } else if (texto == undefined || texto == "") {
-        res.status(400).send("Informe o texto da poesia.");
-    } else if (emocao == undefined || emocao == "") {
-        res.status(400).send("Informe a emoção da poesia.");
-    } else if (usuario == undefined) {
-        res.status(400).send("Usuário não identificado.");
-    } else {
-        dashboardModel.inserirPoesia(titulo, texto, emocao, intensidade, usuario)
-            .then(function (resultado) {
-                res.status(200).json("Poesia cadastrada com sucesso");
-            })
-            .catch(function (erro) {
-                console.log("Erro ao cadastrar poesia:", erro);
-                res.status(500).json("Erro ao cadastrar poesia");
-            });
+    var emocoes = [];
+    if (Array.isArray(lista) && lista.length <= 7) {
+        for (var item of lista) {
+            var nome = validacao.texto(item?.nome, 45);
+            var intensidade = validacao.inteiro(item?.intensidade, 1, 5);
+            if (!nome || intensidade === null ||
+                emocoes.some(function (emocao) { return emocao.nome === nome; })) break;
+
+            emocoes.push({ nome: nome, intensidade: intensidade });
+        }
+        if (emocoes.length === lista.length) return emocoes;
     }
+
+    var erro = new Error("Escolha emoções diferentes e informe intensidades de 1 a 5.");
+    erro.status = 400;
+    throw erro;
 }
 
-function listarPoesias(req, res) {
-    dashboardModel.listarPoesias()
-        .then(function (resultado) {
-            res.status(200).json(resultado);
-        })
-        .catch(function (erro) {
-            console.log("Erro ao listar poesias:", erro.sqlMessage);
-            res.status(500).json("Erro ao buscar as poesias.");
-        });
+async function salvarObra(req, res, tipo, campos) {
+    var novo = req.method === "POST";
+    var id = novo ? null : validacao.inteiro(req.params.id, 1, 2147483647);
+    if (!novo && id === null) return res.status(400).send("ID inválido.");
+
+    var dados = validacao.lerCampos(req.body, campos);
+    var emocoes = lerEmocoes(req.body);
+    var resultado = await dashboardModel.salvarObra(tipo, id, dados, emocoes, req.usuario.id);
+    if (!resultado) return res.status(404).send("Obra não encontrada.");
+
+    res.status(novo ? 201 : 200).json(resultado);
 }
 
-function listarMusicas(req, res) {
-    dashboardModel.listarMusicas()
-        .then(function (resultado) {
-            res.status(200).json(resultado);
-        })
-        .catch(function (erro) {
-            console.log("Erro ao listar músicas:", erro.sqlMessage);
-            res.status(500).json("Erro ao buscar as músicas.");
-        });
+function salvarPoesia(req, res) {
+    return salvarObra(req, res, "poesia", camposPoesia);
+}
+
+function salvarMusica(req, res) {
+    return salvarObra(req, res, "musica", camposMusica);
+}
+
+async function excluirObra(req, res, tipo) {
+    var id = validacao.inteiro(req.params.id, 1, 2147483647);
+    if (id === null) return res.status(400).send("ID inválido.");
+
+    var excluida = await dashboardModel.excluirObra(tipo, id);
+    if (!excluida) return res.status(404).send("Obra não encontrada.");
+
+    res.sendStatus(204);
+}
+
+function excluirPoesia(req, res) {
+    return excluirObra(req, res, "poesia");
+}
+
+function excluirMusica(req, res) {
+    return excluirObra(req, res, "musica");
 }
 
 module.exports = {
-    buscarEmocoesPoesia,
-    cadastrarMusica,
-    cadastrarPoesia,
-    listarPoesias,
-    listarMusicas
+    buscarEmocoesPoesia, listarEmocoes, listarPoesias, listarMusicas,
+    salvarPoesia, salvarMusica, excluirPoesia, excluirMusica
 };

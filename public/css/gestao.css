@@ -1,0 +1,149 @@
+.admin-container {
+  width: min(92%, var(--largura-site));
+  margin: 32px auto 44px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  align-content: start;
+  gap: 18px;
+}
+
+.titulo-gestao {
+  grid-column: 1 / -1;
+}
+
+.titulo-gestao h1 {
+  margin: 0;
+  color: var(--dourado);
+  font-family: var(--fonte-rua);
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  font-weight: 400;
+}
+
+.card-admin {
+  padding: 24px;
+  border-left: 4px solid var(--ambar);
+}
+
+.card-admin h2 {
+  font-family: var(--fonte-rua);
+  color: var(--ambar);
+  margin-top: 0;
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+
+.form-grupo {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.form-grupo label {
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+}
+
+.form-grupo textarea {
+  resize: vertical;
+  height: 90px;
+}
+
+.acoes-admin {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.acoes-admin button:disabled {
+  cursor: wait;
+  opacity: .65;
+}
+
+.status-pagina {
+  width: min(92%, var(--largura-site));
+  margin: 24px auto;
+}
+
+.status-admin:empty {
+  display: none;
+}
+
+.grupo-emocoes {
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--ambar);
+  border-radius: 6px;
+}
+
+.grupo-emocoes button {
+  align-self: flex-start;
+}
+
+.linha-emocao,
+.linha-emocao-extra {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.linha-emocao > div {
+  display: grid;
+}
+
+.linha-emocao-extra {
+  grid-template-columns: minmax(0, 1fr) 70px auto;
+}
+
+.lista-admin {
+  margin-top: 16px;
+}
+
+.linha-registro {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 0;
+  border-top: 1px solid rgba(180, 83, 9, .25);
+  overflow-wrap: anywhere;
+}
+
+.linha-registro button,
+.botao-secundario {
+  padding: 7px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--ambar);
+  background: transparent;
+  color: var(--marrom);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.linha-registro button:hover,
+.botao-secundario:hover {
+  background: var(--marrom);
+  color: var(--creme);
+}
+
+@media (max-width: 740px) {
+  .admin-container {
+    grid-template-columns: 1fr;
+    margin-top: 24px;
+  }
+
+  .card-admin {
+    padding: 18px;
+  }
+}
+
+@media (max-width: 390px) {
+  .linha-emocao-extra {
+    grid-template-columns: minmax(0, 1fr) 64px;
+  }
+}

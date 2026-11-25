@@ -1,26 +1,22 @@
 var express = require("express");
 var router = express.Router();
-
 var dashboardController = require("../controllers/dashboardController");
+var sessao = require("../sessao");
+var responder = require("./responder");
 
-router.get("/emocoes-poesia", function (req, res) {
-    dashboardController.buscarEmocoesPoesia(req, res);
-});
+var admin = [sessao.exigirSessao, sessao.exigirAdmin];
 
-router.post("/cadastrar-musica", function (req, res) {
-    dashboardController.cadastrarMusica(req, res);
-});
+router.get("/emocoes-poesia", responder(dashboardController.buscarEmocoesPoesia));
+router.get("/emocoes", responder(dashboardController.listarEmocoes));
+router.get("/listar-poesias", responder(dashboardController.listarPoesias));
+router.get("/listar-musicas", responder(dashboardController.listarMusicas));
 
-router.post("/cadastrar-poesia", function (req, res) {
-    dashboardController.cadastrarPoesia(req, res);
-});
+router.post("/cadastrar-poesia", admin, responder(dashboardController.salvarPoesia));
+router.put("/poesias/:id", admin, responder(dashboardController.salvarPoesia));
+router.delete("/poesias/:id", admin, responder(dashboardController.excluirPoesia));
 
-router.get("/listar-poesias", function (req, res) {
-    dashboardController.listarPoesias(req, res);
-});
-
-router.get("/listar-musicas", function (req, res) {
-    dashboardController.listarMusicas(req, res);
-});
+router.post("/cadastrar-musica", admin, responder(dashboardController.salvarMusica));
+router.put("/musicas/:id", admin, responder(dashboardController.salvarMusica));
+router.delete("/musicas/:id", admin, responder(dashboardController.excluirMusica));
 
 module.exports = router;
