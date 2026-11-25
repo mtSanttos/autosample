@@ -21,3 +21,5 @@ router.get("/por-proximidade", function (req, res) {
 });
 
 module.exports = router;
+
+x
