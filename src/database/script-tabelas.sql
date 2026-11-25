@@ -1,7 +1,4 @@
--- CREATE DATABASE autosample;
-
-USE autosample;
-
+-- Selecione o schema do Autosample antes de rodar em um banco vazio.
 
 CREATE TABLE usuario (
 id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -10,7 +7,7 @@ email	varchar(100) NOT NULL UNIQUE,
 senha	varchar(255)NOT NULL,
 proximidade	varchar(30),
 funcao	varchar(30),
-perfil	varchar(10) NOT NULL, 
+perfil varchar(10) NOT NULL DEFAULT 'visitante',
 dt_cadastro	DATETIME DEFAULT CURRENT_TIMESTAMP,
 CONSTRAINT chk_perfil CHECK (perfil IN ('admin', 'visitante'))
 );
@@ -19,6 +16,7 @@ CREATE TABLE emocao (
   idEmocao INT NOT NULL AUTO_INCREMENT,
   nome VARCHAR(45) NOT NULL,
   PRIMARY KEY (idEmocao),
+  CONSTRAINT uk_emocao_nome UNIQUE (nome),
   CONSTRAINT chk_nome CHECK (nome IN ('amor', 'saudade', 'verdade', 'tristeza', 'alegria', 'realizacao', 'orgulho'))
 );
 
@@ -74,6 +72,7 @@ CREATE TABLE top_referencias (
   dtCriacao DATETIME DEFAULT CURRENT_TIMESTAMP,
   fkUsuario INT NOT NULL,
   FOREIGN KEY (fkUsuario) REFERENCES usuario(id),
+  CONSTRAINT uk_referencias_posicao UNIQUE (posicao),
   CONSTRAINT chk_posicao_ref CHECK (posicao BETWEEN 1 AND 5)
 );
 
@@ -90,6 +89,7 @@ CREATE TABLE top_albuns (
   dtCriacao DATETIME DEFAULT CURRENT_TIMESTAMP,
   fkUsuario INT NOT NULL,
   FOREIGN KEY (fkUsuario) REFERENCES usuario(id),
+  CONSTRAINT uk_albuns_posicao UNIQUE (posicao),
   CONSTRAINT chk_posicao_album CHECK (posicao BETWEEN 1 AND 5)
 );
 
@@ -116,6 +116,9 @@ CREATE TABLE perfil_musical (
 );
 
 
+INSERT INTO emocao (nome)
+VALUES ('amor'), ('saudade'), ('verdade'), ('tristeza'), ('alegria'), ('realizacao'), ('orgulho');
+
 SHOW TABLES;
 
 
@@ -130,18 +133,3 @@ GROUP BY e.nome;
 SELECT table_name, column_name, referenced_table_name, referenced_column_name
 FROM information_schema.key_column_usage
 WHERE table_schema = DATABASE() AND referenced_table_name IS NOT NULL;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
