@@ -104,7 +104,7 @@ O esquema atual está em [script-tabelas.sql](src/database/script-tabelas.sql). 
 
 | Tabela | O que guarda |
 | ------ | ------------ |
-| `usuario` | Conta, e-mail único, senha em hash, proximidade, função e perfil de acesso |
+| `usuario` | Conta, e-mail único, senha em texto puro, proximidade, função e perfil de acesso |
 | `poesia` | Título, versos e autoria |
 | `musica` | Título, artista, link e autoria |
 | `emocao` | Sete emoções fixas com nomes únicos |
