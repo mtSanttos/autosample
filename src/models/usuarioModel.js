@@ -28,10 +28,6 @@ async function buscarSenha(id) {
     return resultado[0]?.senha;
 }
 
-function atualizarSenha(id, senha, senhaAnterior) {
-    return database.executar("UPDATE usuario SET senha = ? WHERE id = ? AND BINARY senha = ?;", [senha, id, senhaAnterior]);
-}
-
 function atualizarConta(id, nome, email, proximidade, funcao, senha, senhaAnterior) {
     if (senha) {
         return database.executar(`
@@ -101,6 +97,6 @@ function contarPorProximidade() {
 }
 
 module.exports = {
-    buscarPorEmail, cadastrar, buscarConta, buscarSenha, atualizarSenha, atualizarConta, excluirConta,
+    buscarPorEmail, cadastrar, buscarConta, buscarSenha, atualizarConta, excluirConta,
     buscarPerfil, cadastrarPerfil, atualizarPerfil, excluirPerfil, contarPorFuncao, contarPorProximidade
 };

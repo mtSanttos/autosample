@@ -2,31 +2,37 @@ var usuarioModel = require("../models/usuarioModel");
 var sessao = require("../sessao");
 var validacao = require("../validacao");
 
-var senhaSegura = require("../senha");
-
 var proximidades = ["amigo", "familia", "cena", "site", "professor", "admin"];
 var funcoes = ["MC", "beatmaker", "DJ", "produtor", "ouvinte"];
 
-function validarSenhaNova(senha) {
+function senhaValida(senha) {
+    if (typeof senha !== "string" || senha.length > 255) return false;
+
     var simbolos = "!@#$%&*()_+-=[]{};:,.<>?/|~";
     var numeros = "0123456789";
     var temSimbolo = false;
     var temNumero = false;
 
-    if (typeof senha === "string" && senha.length <= 255) {
-        for (var i = 0; i < senha.length; i++) {
-            if (simbolos.includes(senha[i])) temSimbolo = true;
-            if (numeros.includes(senha[i])) temNumero = true;
-        }
-
-        var temMaiuscula = senha !== senha.toLowerCase();
-        var temMinuscula = senha !== senha.toUpperCase();
-        if (temSimbolo && temNumero && temMaiuscula && temMinuscula) return;
+    for (var i = 0; i < senha.length; i++) {
+        if (simbolos.includes(senha[i])) temSimbolo = true;
+        if (numeros.includes(senha[i])) temNumero = true;
     }
+
+    var temMaiuscula = senha !== senha.toLowerCase();
+    var temMinuscula = senha !== senha.toUpperCase();
+    return temSimbolo && temNumero && temMaiuscula && temMinuscula;
+}
+
+function validarSenhaNova(senha) {
+    if (senhaValida(senha)) return;
 
     var erro = new Error("Use uma senha com maiúscula, minúscula, número e símbolo.");
     erro.status = 400;
     throw erro;
+}
+
+function senhaConfere(senha, senhaSalva) {
+    return senhaValida(senha) && senha === senhaSalva;
 }
 
 function lerConta(corpo) {
@@ -54,19 +60,8 @@ async function autenticar(req, res) {
 
     var usuarios = await usuarioModel.buscarPorEmail(email);
     var usuario = usuarios[0];
-    if (!usuario) {
+    if (!usuario || !senhaConfere(senha, usuario.senha)) {
         return res.status(403).send("E-mail ou senha inválidos.");
-    }
-
-    var senhaCorreta = await senhaSegura.conferirSenha(senha, usuario.senha);
-    if (!senhaCorreta) {
-        return res.status(403).send("E-mail ou senha inválidos.");
-    }
-
-    if (!senhaSegura.senhaTemHash(usuario.senha)) {
-        var novoHash = await senhaSegura.gerarHash(senha);
-        var resultado = await usuarioModel.atualizarSenha(usuario.id, novoHash, usuario.senha);
-        if (!resultado.affectedRows) return res.status(409).send("A conta mudou. Tente entrar novamente.");
     }
 
     sessao.iniciar(req, res, usuario.id);
@@ -92,23 +87,23 @@ async function atualizarConta(req, res) {
     var dados = lerConta(req.body);
     var senhaNova = req.body.senhaServer;
     var senhaSalva;
-    var hash;
+    var senhaParaSalvar;
 
     if (senhaNova != null && senhaNova !== "") {
         validarSenhaNova(senhaNova);
         senhaSalva = await usuarioModel.buscarSenha(req.usuario.id);
-        if (!await senhaSegura.conferirSenha(req.body.senhaAtual, senhaSalva)) {
+        if (!senhaConfere(req.body.senhaAtual, senhaSalva)) {
             return res.status(403).send("A senha atual está incorreta.");
         }
-        hash = await senhaSegura.gerarHash(senhaNova);
+        senhaParaSalvar = senhaNova;
     }
 
     var resultado = await usuarioModel.atualizarConta(
-        req.usuario.id, dados.nomeServer, dados.emailServer, dados.proximidadeServer, dados.funcaoServer, hash, senhaSalva
+        req.usuario.id, dados.nomeServer, dados.emailServer, dados.proximidadeServer, dados.funcaoServer, senhaParaSalvar, senhaSalva
     );
     if (!resultado.affectedRows) return res.status(409).send("A conta mudou. Entre novamente.");
 
-    if (hash) {
+    if (senhaParaSalvar) {
         sessao.encerrarDoUsuario(req.usuario.id);
         sessao.iniciar(req, res, req.usuario.id);
     }
@@ -117,7 +112,7 @@ async function atualizarConta(req, res) {
 
 async function excluirConta(req, res) {
     var senhaSalva = await usuarioModel.buscarSenha(req.usuario.id);
-    if (!await senhaSegura.conferirSenha(req.body.senhaAtual, senhaSalva)) {
+    if (!senhaConfere(req.body.senhaAtual, senhaSalva)) {
         return res.status(403).send("A senha atual está incorreta.");
     }
 
