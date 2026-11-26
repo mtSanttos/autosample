@@ -7,12 +7,12 @@ function buscarPorEmail(email) {
     return database.executar(instrucaoSql, [email]);
 }
 
-function cadastrar(nome, email, hash, proximidade, funcao) {
+function cadastrar(nome, email, senha, proximidade, funcao) {
     var instrucaoSql = `
         INSERT INTO usuario (nome, email, senha, proximidade, funcao, perfil)
         VALUES (?, ?, ?, ?, ?, 'visitante');
     `;
-    var valores = [nome, email, hash, proximidade, funcao];
+    var valores = [nome, email, senha, proximidade, funcao];
     return database.executar(instrucaoSql, valores);
 }
 

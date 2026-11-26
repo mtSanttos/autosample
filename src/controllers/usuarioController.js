@@ -76,10 +76,10 @@ async function autenticar(req, res) {
 
 async function cadastrar(req, res) {
     var dados = lerConta(req.body);
-    validarSenhaNova(req.body.senhaServer);
-    var hash = await senhaSegura.gerarHash(req.body.senhaServer);
+    var senha = req.body.senhaServer;
+    validarSenhaNova(senha);
     var resultado = await usuarioModel.cadastrar(
-        dados.nomeServer, dados.emailServer, hash, dados.proximidadeServer, dados.funcaoServer
+        dados.nomeServer, dados.emailServer, senha, dados.proximidadeServer, dados.funcaoServer
     );
     res.status(201).json({ id: resultado.insertId });
 }
