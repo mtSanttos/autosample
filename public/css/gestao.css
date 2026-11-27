@@ -1,6 +1,10 @@
 .admin-container {
   width: min(92%, var(--largura-site));
   margin: 32px auto 44px;
+}
+
+.admin-container,
+.editor-acervo {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: start;
@@ -8,16 +12,24 @@
   gap: 18px;
 }
 
-.titulo-gestao {
+.titulo-gestao,
+.editor-acervo,
+.acervo-perfil {
   grid-column: 1 / -1;
 }
 
-.titulo-gestao h1 {
+.titulo-gestao h1,
+.acervo-perfil > h2 {
   margin: 0;
   color: var(--dourado);
   font-family: var(--fonte-rua);
   font-size: clamp(1.8rem, 5vw, 2.8rem);
   font-weight: 400;
+}
+
+.acervo-perfil > h2 {
+  margin-bottom: 16px;
+  font-size: clamp(1.5rem, 4vw, 2rem);
 }
 
 .card-admin {
@@ -132,8 +144,12 @@
 }
 
 @media (max-width: 740px) {
-  .admin-container {
+  .admin-container,
+  .editor-acervo {
     grid-template-columns: 1fr;
+  }
+
+  .admin-container {
     margin-top: 24px;
   }
 

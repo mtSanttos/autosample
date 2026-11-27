@@ -224,18 +224,22 @@ function cadastrarReferencia() {
   return false;
 }
 
+async function carregarEditorAcervo() {
+  catalogoEmocoes = await pedirDados("/dashboard/emocoes");
+  preencherEmocoes(document.getElementById("emocao_poesia"));
+  preencherEmocoes(document.getElementById("emocao_musica"));
+  for (var tipo of Object.keys(colecoes)) carregarLista(tipo);
+}
+
 async function carregarAdmin(usuario) {
   if (!usuario) return;
   aplicarMenu(usuario);
   document.getElementById("nome_admin").textContent = usuario.nome;
 
   try {
-    catalogoEmocoes = await pedirDados("/dashboard/emocoes");
-    preencherEmocoes(document.getElementById("emocao_poesia"));
-    preencherEmocoes(document.getElementById("emocao_musica"));
+    await carregarEditorAcervo();
     document.getElementById("admin_conteudo").hidden = false;
     document.getElementById("admin_inicio").hidden = true;
-    for (var tipo of Object.keys(colecoes)) carregarLista(tipo);
   } catch (erro) {
     mostrarErroAdmin(erro);
   }

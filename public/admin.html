@@ -43,191 +43,193 @@
     <div class="titulo-gestao">
       <h1>Admin do Acervo</h1>
     </div>
-    <section class="card-admin">
-      <h2>Poesias</h2>
-      <form id="form_poesia" onsubmit="return cadastrarPoesia()">
-        <div class="form-grupo">
-          <label for="titulo_poesia">Título da poesia</label>
-          <input type="text" id="titulo_poesia" maxlength="100" required>
-        </div>
-        <div class="form-grupo">
-          <label for="texto_poesia">Versos</label>
-          <textarea id="texto_poesia" required></textarea>
-        </div>
-        <fieldset class="form-grupo grupo-emocoes">
-          <legend>Emoções</legend>
-          <div class="linha-emocao">
-            <div>
-              <label for="emocao_poesia">Emoção</label>
-              <select id="emocao_poesia"><option value="">Selecione a emoção</option></select>
-            </div>
-            <div>
-              <label for="intensidade_poesia">Intensidade (1 a 5)</label>
-              <input type="number" id="intensidade_poesia" min="1" max="5" value="3">
-            </div>
+    <div class="editor-acervo" id="admin_formularios">
+      <section class="card-admin">
+        <h2>Poesias</h2>
+        <form id="form_poesia" onsubmit="return cadastrarPoesia()">
+          <div class="form-grupo">
+            <label for="titulo_poesia">Título da poesia</label>
+            <input type="text" id="titulo_poesia" maxlength="100" required>
           </div>
-          <div id="emocoes_extras_poesia"></div>
-          <button class="botao-secundario" type="button" onclick="adicionarEmocao('poesia')">Adicionar emoção</button>
-        </fieldset>
-        <div class="acoes-admin">
-          <button class="btn-cadastrar" id="salvar_poesia" type="submit" onclick="return cadastrarPoesia()">Cadastrar Poesia</button>
-          <button class="botao-secundario" id="cancelar_poesia" type="button" onclick="limparFormulario('poesia'); mostrarStatus('poesia', '')" hidden>Cancelar edição</button>
-        </div>
-        <p class="status-admin" id="status_poesia" role="status"></p>
-      </form>
-      <div class="lista-admin" id="lista_poesia" aria-label="Registros de poesias"></div>
-    </section>
-
-    <section class="card-admin">
-      <h2>Músicas (Samples)</h2>
-      <form id="form_musica" onsubmit="return cadastrarMusica()">
-        <div class="form-grupo">
-          <label for="titulo_musica">Título da música</label>
-          <input type="text" id="titulo_musica" maxlength="100" required>
-        </div>
-        <div class="form-grupo">
-          <label for="artista_musica">Artista ou produtor</label>
-          <input type="text" id="artista_musica" maxlength="100" required>
-        </div>
-        <div class="form-grupo">
-          <label for="link_musica">Link da música</label>
-          <input type="url" id="link_musica" maxlength="255">
-        </div>
-        <fieldset class="form-grupo grupo-emocoes">
-          <legend>Emoções</legend>
-          <div class="linha-emocao">
-            <div>
-              <label for="emocao_musica">Emoção</label>
-              <select id="emocao_musica"><option value="">Selecione a emoção</option></select>
-            </div>
-            <div>
-              <label for="intensidade_musica">Intensidade (1 a 5)</label>
-              <input type="number" id="intensidade_musica" min="1" max="5" value="3">
-            </div>
+          <div class="form-grupo">
+            <label for="texto_poesia">Versos</label>
+            <textarea id="texto_poesia" required></textarea>
           </div>
-          <div id="emocoes_extras_musica"></div>
-          <button class="botao-secundario" type="button" onclick="adicionarEmocao('musica')">Adicionar emoção</button>
-        </fieldset>
-        <div class="acoes-admin">
-          <button class="btn-cadastrar" id="salvar_musica" type="submit" onclick="return cadastrarMusica()">Cadastrar Música</button>
-          <button class="botao-secundario" id="cancelar_musica" type="button" onclick="limparFormulario('musica'); mostrarStatus('musica', '')" hidden>Cancelar edição</button>
-        </div>
-        <p class="status-admin" id="status_musica" role="status"></p>
-      </form>
-      <div class="lista-admin" id="lista_musica" aria-label="Registros de músicas (samples)"></div>
-    </section>
+          <fieldset class="form-grupo grupo-emocoes">
+            <legend>Emoções</legend>
+            <div class="linha-emocao">
+              <div>
+                <label for="emocao_poesia">Emoção</label>
+                <select id="emocao_poesia"><option value="">Selecione a emoção</option></select>
+              </div>
+              <div>
+                <label for="intensidade_poesia">Intensidade (1 a 5)</label>
+                <input type="number" id="intensidade_poesia" min="1" max="5" value="3">
+              </div>
+            </div>
+            <div id="emocoes_extras_poesia"></div>
+            <button class="botao-secundario" type="button" onclick="adicionarEmocao('poesia')">Adicionar emoção</button>
+          </fieldset>
+          <div class="acoes-admin">
+            <button class="btn-cadastrar" id="salvar_poesia" type="submit" onclick="return cadastrarPoesia()">Cadastrar Poesia</button>
+            <button class="botao-secundario" id="cancelar_poesia" type="button" onclick="limparFormulario('poesia'); mostrarStatus('poesia', '')" hidden>Cancelar edição</button>
+          </div>
+          <p class="status-admin" id="status_poesia" role="status"></p>
+        </form>
+        <div class="lista-admin" id="lista_poesia" aria-label="Registros de poesias"></div>
+      </section>
 
-    <section class="card-admin">
-      <h2>Top 5 Referências</h2>
-      <form id="form_referencia" onsubmit="return cadastrarReferencia()">
-        <div class="form-grupo">
-          <label for="ref_nome">Nome do artista ou grupo</label>
-          <input type="text" id="ref_nome" maxlength="100" required>
-        </div>
-        <div class="form-grupo">
-          <label for="ref_genero">Gênero</label>
-          <input type="text" id="ref_genero" maxlength="100" required>
-        </div>
-        <div class="form-grupo">
-          <label for="ref_origem">Origem</label>
-          <input type="text" id="ref_origem" maxlength="100">
-        </div>
-        <div class="form-grupo">
-          <label for="ref_impacto">Por que é uma referência pessoal?</label>
-          <textarea id="ref_impacto" required></textarea>
-        </div>
-        <div class="form-grupo">
-          <label for="ref_link">Link da referência</label>
-          <input type="url" id="ref_link" maxlength="255">
-        </div>
-        <div class="form-grupo">
-          <label for="ref_posicao">Posição (1 a 5)</label>
-          <input type="number" id="ref_posicao" min="1" max="5" required>
-        </div>
-        <div class="acoes-admin">
-          <button class="btn-cadastrar" id="salvar_referencia" type="submit" onclick="return cadastrarReferencia()">Salvar Referência</button>
-          <button class="botao-secundario" id="cancelar_referencia" type="button" onclick="limparFormulario('referencia'); mostrarStatus('referencia', '')" hidden>Cancelar edição</button>
-        </div>
-        <p class="status-admin" id="status_referencia" role="status"></p>
-      </form>
-      <div class="lista-admin" id="lista_referencia" aria-label="Registros de top 5 referências"></div>
-    </section>
+      <section class="card-admin">
+        <h2>Músicas gravadas</h2>
+        <form id="form_musica" onsubmit="return cadastrarMusica()">
+          <div class="form-grupo">
+            <label for="titulo_musica">Título da música</label>
+            <input type="text" id="titulo_musica" maxlength="100" required>
+          </div>
+          <div class="form-grupo">
+            <label for="artista_musica">Artista ou produtor</label>
+            <input type="text" id="artista_musica" maxlength="100" required>
+          </div>
+          <div class="form-grupo">
+            <label for="link_musica">Link da música</label>
+            <input type="url" id="link_musica" maxlength="255">
+          </div>
+          <fieldset class="form-grupo grupo-emocoes">
+            <legend>Emoções</legend>
+            <div class="linha-emocao">
+              <div>
+                <label for="emocao_musica">Emoção</label>
+                <select id="emocao_musica"><option value="">Selecione a emoção</option></select>
+              </div>
+              <div>
+                <label for="intensidade_musica">Intensidade (1 a 5)</label>
+                <input type="number" id="intensidade_musica" min="1" max="5" value="3">
+              </div>
+            </div>
+            <div id="emocoes_extras_musica"></div>
+            <button class="botao-secundario" type="button" onclick="adicionarEmocao('musica')">Adicionar emoção</button>
+          </fieldset>
+          <div class="acoes-admin">
+            <button class="btn-cadastrar" id="salvar_musica" type="submit" onclick="return cadastrarMusica()">Cadastrar Música</button>
+            <button class="botao-secundario" id="cancelar_musica" type="button" onclick="limparFormulario('musica'); mostrarStatus('musica', '')" hidden>Cancelar edição</button>
+          </div>
+          <p class="status-admin" id="status_musica" role="status"></p>
+        </form>
+        <div class="lista-admin" id="lista_musica" aria-label="Registros de músicas (samples)"></div>
+      </section>
 
-    <section class="card-admin">
-      <h2>Top 5 Álbuns</h2>
-      <form id="form_album" onsubmit="event.preventDefault(); salvarCadastro('album')">
-        <div class="form-grupo">
-          <label for="album_titulo">Título do álbum</label>
-          <input type="text" id="album_titulo" maxlength="100" required>
-        </div>
-        <div class="form-grupo">
-          <label for="album_artista">Artista</label>
-          <input type="text" id="album_artista" maxlength="100" required>
-        </div>
-        <div class="form-grupo">
-          <label for="album_genero">Gênero</label>
-          <input type="text" id="album_genero" maxlength="100" required>
-        </div>
-        <div class="form-grupo">
-          <label for="album_ano">Ano</label>
-          <input type="number" id="album_ano" min="1" max="9999">
-        </div>
-        <div class="form-grupo">
-          <label for="album_faixa">Faixa destaque</label>
-          <input type="text" id="album_faixa" maxlength="100">
-        </div>
-        <div class="form-grupo">
-          <label for="album_impacto">Como esse disco marcou sua vida?</label>
-          <textarea id="album_impacto" required></textarea>
-        </div>
-        <div class="form-grupo">
-          <label for="album_link">Link do álbum</label>
-          <input type="url" id="album_link" maxlength="255">
-        </div>
-        <div class="form-grupo">
-          <label for="album_posicao">Posição (1 a 5)</label>
-          <input type="number" id="album_posicao" min="1" max="5" required>
-        </div>
-        <div class="acoes-admin">
-          <button class="btn-cadastrar" id="salvar_album" type="submit">Cadastrar Álbum</button>
-          <button class="botao-secundario" id="cancelar_album" type="button" onclick="limparFormulario('album'); mostrarStatus('album', '')" hidden>Cancelar edição</button>
-        </div>
-        <p class="status-admin" id="status_album" role="status"></p>
-      </form>
-      <div class="lista-admin" id="lista_album" aria-label="Registros de top 5 álbuns"></div>
-    </section>
+      <section class="card-admin">
+        <h2>Top 5 Referências</h2>
+        <form id="form_referencia" onsubmit="return cadastrarReferencia()">
+          <div class="form-grupo">
+            <label for="ref_nome">Nome do artista ou grupo</label>
+            <input type="text" id="ref_nome" maxlength="100" required>
+          </div>
+          <div class="form-grupo">
+            <label for="ref_genero">Gênero</label>
+            <input type="text" id="ref_genero" maxlength="100" required>
+          </div>
+          <div class="form-grupo">
+            <label for="ref_origem">Origem</label>
+            <input type="text" id="ref_origem" maxlength="100">
+          </div>
+          <div class="form-grupo">
+            <label for="ref_impacto">Por que é uma referência pessoal?</label>
+            <textarea id="ref_impacto" required></textarea>
+          </div>
+          <div class="form-grupo">
+            <label for="ref_link">Melhor Música</label>
+            <input type="url" id="ref_link" maxlength="255">
+          </div>
+          <div class="form-grupo">
+            <label for="ref_posicao">Posição (1 a 5)</label>
+            <input type="number" id="ref_posicao" min="1" max="5" required>
+          </div>
+          <div class="acoes-admin">
+            <button class="btn-cadastrar" id="salvar_referencia" type="submit" onclick="return cadastrarReferencia()">Salvar Referência</button>
+            <button class="botao-secundario" id="cancelar_referencia" type="button" onclick="limparFormulario('referencia'); mostrarStatus('referencia', '')" hidden>Cancelar edição</button>
+          </div>
+          <p class="status-admin" id="status_referencia" role="status"></p>
+        </form>
+        <div class="lista-admin" id="lista_referencia" aria-label="Registros de top 5 referências"></div>
+      </section>
 
-    <section class="card-admin">
-      <h2>Old School</h2>
-      <form id="form_old_school" onsubmit="event.preventDefault(); salvarCadastro('old_school')">
-        <div class="form-grupo">
-          <label for="old_titulo">Título da faixa</label>
-          <input type="text" id="old_titulo" maxlength="100" required>
-        </div>
-        <div class="form-grupo">
-          <label for="old_artista">Artista</label>
-          <input type="text" id="old_artista" maxlength="100" required>
-        </div>
-        <div class="form-grupo">
-          <label for="old_ano">Ano</label>
-          <input type="number" id="old_ano" min="1" max="9999">
-        </div>
-        <div class="form-grupo">
-          <label for="old_impacto">O que essa faixa representa?</label>
-          <textarea id="old_impacto"></textarea>
-        </div>
-        <div class="form-grupo">
-          <label for="old_link">Link da faixa</label>
-          <input type="url" id="old_link" maxlength="255">
-        </div>
-        <div class="acoes-admin">
-          <button class="btn-cadastrar" id="salvar_old_school" type="submit">Cadastrar Faixa</button>
-          <button class="botao-secundario" id="cancelar_old_school" type="button" onclick="limparFormulario('old_school'); mostrarStatus('old_school', '')" hidden>Cancelar edição</button>
-        </div>
-        <p class="status-admin" id="status_old_school" role="status"></p>
-      </form>
-      <div class="lista-admin" id="lista_old_school" aria-label="Registros de old school"></div>
-    </section>
+      <section class="card-admin">
+        <h2>Top 5 Álbuns</h2>
+        <form id="form_album" onsubmit="event.preventDefault(); salvarCadastro('album')">
+          <div class="form-grupo">
+            <label for="album_titulo">Título do álbum</label>
+            <input type="text" id="album_titulo" maxlength="100" required>
+          </div>
+          <div class="form-grupo">
+            <label for="album_artista">Artista</label>
+            <input type="text" id="album_artista" maxlength="100" required>
+          </div>
+          <div class="form-grupo">
+            <label for="album_genero">Gênero</label>
+            <input type="text" id="album_genero" maxlength="100" required>
+          </div>
+          <div class="form-grupo">
+            <label for="album_ano">Ano</label>
+            <input type="number" id="album_ano" min="1" max="9999">
+          </div>
+          <div class="form-grupo">
+            <label for="album_faixa">Faixa destaque</label>
+            <input type="text" id="album_faixa" maxlength="100">
+          </div>
+          <div class="form-grupo">
+            <label for="album_impacto">Como esse disco marcou sua vida?</label>
+            <textarea id="album_impacto" required></textarea>
+          </div>
+          <div class="form-grupo">
+            <label for="album_link">Link do álbum</label>
+            <input type="url" id="album_link" maxlength="255">
+          </div>
+          <div class="form-grupo">
+            <label for="album_posicao">Posição (1 a 5)</label>
+            <input type="number" id="album_posicao" min="1" max="5" required>
+          </div>
+          <div class="acoes-admin">
+            <button class="btn-cadastrar" id="salvar_album" type="submit">Cadastrar Álbum</button>
+            <button class="botao-secundario" id="cancelar_album" type="button" onclick="limparFormulario('album'); mostrarStatus('album', '')" hidden>Cancelar edição</button>
+          </div>
+          <p class="status-admin" id="status_album" role="status"></p>
+        </form>
+        <div class="lista-admin" id="lista_album" aria-label="Registros de top 5 álbuns"></div>
+      </section>
+
+      <section class="card-admin">
+        <h2>Old School</h2>
+        <form id="form_old_school" onsubmit="event.preventDefault(); salvarCadastro('old_school')">
+          <div class="form-grupo">
+            <label for="old_titulo">Título da faixa</label>
+            <input type="text" id="old_titulo" maxlength="100" required>
+          </div>
+          <div class="form-grupo">
+            <label for="old_artista">Artista</label>
+            <input type="text" id="old_artista" maxlength="100" required>
+          </div>
+          <div class="form-grupo">
+            <label for="old_ano">Ano</label>
+            <input type="number" id="old_ano" min="1" max="9999">
+          </div>
+          <div class="form-grupo">
+            <label for="old_impacto">O que essa faixa representa?</label>
+            <textarea id="old_impacto"></textarea>
+          </div>
+          <div class="form-grupo">
+            <label for="old_link">Link da faixa</label>
+            <input type="url" id="old_link" maxlength="255">
+          </div>
+          <div class="acoes-admin">
+            <button class="btn-cadastrar" id="salvar_old_school" type="submit">Cadastrar Faixa</button>
+            <button class="botao-secundario" id="cancelar_old_school" type="button" onclick="limparFormulario('old_school'); mostrarStatus('old_school', '')" hidden>Cancelar edição</button>
+          </div>
+          <p class="status-admin" id="status_old_school" role="status"></p>
+        </form>
+        <div class="lista-admin" id="lista_old_school" aria-label="Registros de old school"></div>
+      </section>
+    </div>
   </main>
 
   <footer class="footer">
