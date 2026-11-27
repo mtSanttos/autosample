@@ -28,17 +28,6 @@ async function enviarPerfil(secao, acao) {
   }
 }
 
-function preencherConta(conta) {
-  document.getElementById("conta_nome").value = conta.nome;
-  document.getElementById("conta_email").value = conta.email;
-  document.getElementById("conta_proximidade").value = conta.proximidade || "";
-  document.getElementById("conta_funcao").value = conta.funcao || "";
-
-  for (var id of ["conta_senha_atual", "conta_senha_nova", "conta_confirmacao"]) {
-    document.getElementById(id).value = "";
-  }
-}
-
 function preencherPerfilMusical(perfil) {
   temPerfilMusical = perfil !== null;
   document.getElementById("perfil_bio").value = perfil?.bio || "";
@@ -47,47 +36,6 @@ function preencherPerfilMusical(perfil) {
   document.getElementById("perfil_link").value = perfil?.link_rede_social || "";
   document.getElementById("musical_salvar").textContent = temPerfilMusical ? "Salvar Perfil Musical" : "Criar Perfil Musical";
   document.getElementById("musical_excluir").hidden = !temPerfilMusical;
-}
-
-function salvarConta(evento) {
-  evento.preventDefault();
-
-  var senha = document.getElementById("conta_senha_nova").value;
-  if (senha !== document.getElementById("conta_confirmacao").value) {
-    return mostrarStatusPerfil("conta", "As senhas não conferem.");
-  }
-
-  enviarPerfil("conta", async function () {
-    var conta = await pedirDados("/usuarios/conta", "PUT", {
-      nomeServer: document.getElementById("conta_nome").value,
-      emailServer: document.getElementById("conta_email").value,
-      proximidadeServer: document.getElementById("conta_proximidade").value,
-      funcaoServer: document.getElementById("conta_funcao").value,
-      senhaAtual: document.getElementById("conta_senha_atual").value,
-      senhaServer: senha
-    });
-
-    guardarSessao(conta);
-    preencherConta(conta);
-    mostrarStatusPerfil("conta", "Conta atualizada.");
-  });
-}
-
-function excluirConta() {
-  var senha = document.getElementById("conta_senha_atual");
-  if (!senha.value) {
-    mostrarStatusPerfil("conta", "Informe a senha atual para excluir a conta.");
-    senha.focus();
-    return;
-  }
-
-  if (!confirm("Excluir sua conta e seu perfil musical?")) return;
-
-  enviarPerfil("conta", async function () {
-    await pedirDados("/usuarios/conta", "DELETE", { senhaAtual: senha.value });
-    sessionStorage.clear();
-    window.location.replace("/index.html");
-  });
 }
 
 function salvarPerfilMusical(evento) {
@@ -114,6 +62,26 @@ function excluirPerfilMusical() {
   });
 }
 
+async function carregarAcervoDoPerfil() {
+  var status = document.getElementById("perfil_acervo_status");
+  document.getElementById("perfil_acervo").hidden = false;
+
+  try {
+    var resposta = await fetch("/admin.html");
+    if (!resposta.ok) throw new Error("Não foi possível carregar os formulários do acervo.");
+
+    var paginaAdmin = new DOMParser().parseFromString(await resposta.text(), "text/html");
+    var formularios = paginaAdmin.getElementById("admin_formularios");
+    if (!formularios) throw new Error("Não foi possível carregar os formulários do acervo.");
+
+    document.getElementById("perfil_acervo_formularios").innerHTML = formularios.innerHTML;
+    await carregarEditorAcervo();
+    status.hidden = true;
+  } catch (erro) {
+    tratarFalhaPerfil("perfil_acervo", erro);
+  }
+}
+
 async function carregarPerfil() {
   var status = document.getElementById("perfil_inicio");
   try {
@@ -121,10 +89,10 @@ async function carregarPerfil() {
     if (!conta) return;
 
     aplicarMenu(conta);
-    preencherConta(conta);
     preencherPerfilMusical(await pedirDados("/usuarios/perfil-musical"));
     document.getElementById("perfil_conteudo").hidden = false;
     status.hidden = true;
+    if (conta.perfil === "admin") carregarAcervoDoPerfil();
   } catch (erro) {
     status.textContent = erro.message;
     if (erro.status === 401) window.location.replace("/login.html");

@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="./css/estilo.css">
   <link rel="stylesheet" href="./css/gestao.css">
   <script src="./js/sessao.js"></script>
+  <script src="./js/admin.js" defer></script>
   <script src="./js/perfil.js" defer></script>
 </head>
 
@@ -43,60 +44,6 @@
       <h1>Meu Perfil</h1>
     </div>
     <section class="card-admin">
-      <h2>Minha Conta</h2>
-      <form id="form_conta" onsubmit="salvarConta(event)">
-        <div class="form-grupo">
-          <label for="conta_nome">Nome</label>
-          <input id="conta_nome" type="text" maxlength="50" autocomplete="name" required>
-        </div>
-        <div class="form-grupo">
-          <label for="conta_email">E-mail</label>
-          <input id="conta_email" type="email" maxlength="100" autocomplete="email" required>
-        </div>
-        <div class="form-grupo">
-          <label for="conta_proximidade">Como você conhece o Matheus?</label>
-          <select id="conta_proximidade" required>
-            <option value="">Selecione</option>
-            <option value="amigo">Amigo</option>
-            <option value="familia">Família</option>
-            <option value="cena">Conheço da cena</option>
-            <option value="site">Conheci pelo site</option>
-            <option value="professor">Professor</option>
-            <option value="admin">Admin</option>
-          </select>
-        </div>
-        <div class="form-grupo">
-          <label for="conta_funcao">Qual sua função na música?</label>
-          <select id="conta_funcao" required>
-            <option value="">Selecione</option>
-            <option value="MC">MC</option>
-            <option value="beatmaker">Beatmaker</option>
-            <option value="DJ">DJ</option>
-            <option value="produtor">Produtor</option>
-            <option value="ouvinte">Ouvinte</option>
-          </select>
-        </div>
-        <div class="form-grupo">
-          <label for="conta_senha_atual">Senha atual para trocar a senha ou excluir a conta</label>
-          <input id="conta_senha_atual" type="password" maxlength="255" autocomplete="current-password">
-        </div>
-        <div class="form-grupo">
-          <label for="conta_senha_nova">Nova senha (opcional)</label>
-          <input id="conta_senha_nova" type="password" maxlength="255" autocomplete="new-password">
-        </div>
-        <div class="form-grupo">
-          <label for="conta_confirmacao">Confirme a nova senha</label>
-          <input id="conta_confirmacao" type="password" maxlength="255" autocomplete="new-password">
-        </div>
-        <div class="acoes-admin">
-          <button class="btn-cadastrar" id="conta_salvar" type="submit">Salvar Conta</button>
-          <button class="botao-secundario" id="conta_excluir" type="button" onclick="excluirConta()">Excluir Conta</button>
-        </div>
-        <p class="status-admin" id="conta_status" role="status"></p>
-      </form>
-    </section>
-
-    <section class="card-admin">
       <h2>Meu Perfil Musical</h2>
       <form id="form_musical" onsubmit="salvarPerfilMusical(event)">
         <div class="form-grupo">
@@ -121,6 +68,12 @@
         </div>
         <p class="status-admin" id="musical_status" role="status"></p>
       </form>
+    </section>
+
+    <section class="acervo-perfil" aria-labelledby="perfil_acervo_titulo" id="perfil_acervo" hidden>
+      <h2 id="perfil_acervo_titulo">Meu Acervo</h2>
+      <p id="perfil_acervo_status" role="status">Carregando formulários do acervo…</p>
+      <div class="editor-acervo" id="perfil_acervo_formularios"></div>
     </section>
   </main>
 
